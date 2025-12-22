@@ -21,35 +21,39 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="bg-white shadow-sm border-b border-gray-100 sticky top-14 z-40 font-sans">
+    // ZMIANA 1: Tło na bg-slate-900 (ciemny granat), border na ciemniejszy
+    <nav className="bg-slate-900 shadow-sm border-b border-slate-800 sticky top-14 z-40 font-sans">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between relative">
         
-        {/* --- 1. LOGO (Zawsze widoczne) --- */}
+        {/* --- 1. LOGO --- */}
         <Link href="/" className="flex items-center gap-3 cursor-pointer group shrink-0">
-          <div className="relative w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center overflow-hidden shadow-lg shadow-blue-200 group-hover:scale-105 transition-transform duration-300">
+          <div className="relative w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center overflow-hidden shadow-lg shadow-blue-900/50 group-hover:scale-105 transition-transform duration-300">
              <i className="far fa-futbol absolute -right-2 -bottom-2 text-[28px] text-blue-400/40 transform rotate-[-15deg]"></i>
              <span className="text-white font-black text-2xl leading-none relative z-10 tracking-tighter drop-shadow-sm">B</span>
              <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-white/10 to-transparent"></div>
           </div>
           <div className="flex flex-col">
-             <span className="text-xl font-extrabold tracking-tighter leading-none text-slate-900">
-                Buk<span className="text-blue-600">Bonus</span>.pl
+             {/* ZMIANA 2: Kolor tekstu logo na biały, "Bonus" na jaśniejszy niebieski (blue-500) dla kontrastu */}
+             <span className="text-xl font-extrabold tracking-tighter leading-none text-white">
+               Buk<span className="text-blue-500">Bonus</span>.pl
              </span>
           </div>
         </Link>
         
-        {/* --- 2. MENU DESKTOPOWE (Dokładnie Twój kod, ukryty na mobile: hidden md:flex) --- */}
-        <div className="hidden md:flex gap-8 text-sm font-bold text-gray-600 absolute left-1/2 transform -translate-x-1/2 h-full items-center">
+        {/* --- 2. MENU DESKTOPOWE --- */}
+        <div className="hidden md:flex gap-8 text-sm font-bold absolute left-1/2 transform -translate-x-1/2 h-full items-center">
             
-            <Link href="/#ranking" className="text-red-600 hover:text-red-700 transition py-2 font-extrabold flex items-center gap-1.5">
+            {/* ZMIANA 3: Kolor linków Ranking/Promocje na red-500 (jaśniejszy czerwony) */}
+            <Link href="/#ranking" className="text-red-500 hover:text-red-400 transition py-2 font-extrabold flex items-center gap-1.5">
                 <i className="fas fa-fire"></i> Ranking
             </Link>
             
             {/* Dropdown Promocje */}
             <div className="relative group h-full flex items-center">
-                <Link href="/promocje" className="text-red-600 hover:text-red-700 transition py-2 font-extrabold flex items-center gap-1">
+                <Link href="/promocje" className="text-red-500 hover:text-red-400 transition py-2 font-extrabold flex items-center gap-1">
                     Promocje <i className="fas fa-chevron-down text-[10px] opacity-50 group-hover:opacity-100 transition-opacity mt-0.5 ml-0.5"></i>
                 </Link>
+                {/* Dropdown zostaje biały w środku dla czytelności */}
                 <div className="absolute top-full left-1/2 -translate-x-1/2 w-64 bg-white rounded-xl shadow-2xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform group-hover:translate-y-0 translate-y-2 overflow-hidden">
                     <div className="p-2 grid gap-1">
                         {BOOKMAKERS_LIST.map((bookie) => (
@@ -71,31 +75,34 @@ export default function Navbar() {
                 </div>
             </div>
 
-            <Link href="/wiadomosci" className="hover:text-blue-600 transition py-2">
+            {/* ZMIANA 4: Zwykłe linki na szary/biały (slate-300 -> white) */}
+            <Link href="/wiadomosci" className="text-slate-300 hover:text-white transition py-2">
                 Wiadomości Sportowe
             </Link>
             
-            <Link href="/typy-dnia" className="hover:text-blue-600 transition py-2 flex items-center gap-1.5">
+            <Link href="/typy-dnia" className="text-slate-300 hover:text-white transition py-2 flex items-center gap-1.5">
                 <i className="far fa-futbol"></i> Typy Dnia
             </Link>
         </div>
 
-        {/* --- 3. PRZYCISK HAMBURGER (Tylko na mobile: md:hidden) --- */}
+        {/* --- 3. PRZYCISK HAMBURGER --- */}
+        {/* ZMIANA 5: Tło przycisku na ciemne (slate-800), ikona jasna */}
         <button 
           onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden w-10 h-10 flex items-center justify-center text-slate-600 bg-slate-100 rounded-lg active:scale-95 transition"
+          className="md:hidden w-10 h-10 flex items-center justify-center text-slate-300 bg-slate-800 rounded-lg active:scale-95 transition hover:bg-slate-700"
         >
           {isOpen ? <i className="fas fa-times text-lg"></i> : <i className="fas fa-bars text-lg"></i>}
         </button>
 
       </div>
 
-      {/* --- 4. MENU MOBILNE (Rozwijane pod spodem) --- */}
+      {/* --- 4. MENU MOBILNE --- */}
+      {/* Menu mobilne zostawiamy białe, bo wysuwa się jako osobna warstwa, ale zmieniamy obramowanie na górze */}
       {isOpen && (
-        <div className="md:hidden bg-white border-t border-gray-100 absolute w-full left-0 top-16 shadow-xl animate-in slide-in-from-top-2 overflow-y-auto max-h-[80vh]">
+        <div className="md:hidden bg-white border-t border-slate-800 absolute w-full left-0 top-16 shadow-xl animate-in slide-in-from-top-2 overflow-y-auto max-h-[80vh]">
           <div className="flex flex-col p-4 space-y-2">
             
-            <Link href="/#ranking" onClick={() => setIsOpen(false)} className="px-4 py-3 rounded-xl bg-red-50 text-red-700 font-black flex items-center gap-2">
+            <Link href="/#ranking" onClick={() => setIsOpen(false)} className="px-4 py-3 rounded-xl bg-red-50 text-red-600 font-black flex items-center gap-2">
                 <i className="fas fa-fire"></i> Ranking Bukmacherów
             </Link>
             
@@ -129,7 +136,7 @@ export default function Navbar() {
                <Link href="/zasady-afiliacji" onClick={() => setIsOpen(false)} className="block px-4 py-2 text-xs font-medium text-slate-500 hover:text-slate-900">
                   Zasady Afiliacji
                </Link>
-               <a href="mailto:kontakt@bukbonus.pl" className="block px-4 py-2 text-xs font-medium text-slate-500 hover:text-slate-900">
+               <a href="mailto:bukbonuskontakt@gmail.com" className="block px-4 py-2 text-xs font-medium text-slate-500 hover:text-slate-900">
                   Kontakt
                </a>
             </div>

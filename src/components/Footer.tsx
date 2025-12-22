@@ -1,9 +1,11 @@
+import Link from 'next/link';
+
 export default function Footer() {
   return (
     <footer className="bg-slate-900 text-slate-500 text-xs py-12 border-t border-slate-800 mt-auto font-sans">
       <div className="container mx-auto px-4">
         
-        {/* SEKCJA 1: GŁÓWNE OSTRZEŻENIA PRAWNE (Najważniejsze) */}
+        {/* SEKCJA 1: GŁÓWNE OSTRZEŻENIA PRAWNE */}
         <div className="mb-10 p-5 bg-slate-800/40 rounded-xl border border-slate-700/50 shadow-sm">
           <div className="flex flex-col md:flex-row items-start gap-4">
               <div className="bg-red-600 text-white font-bold px-3 py-1.5 rounded text-[10px] uppercase tracking-wider shrink-0 shadow-lg shadow-red-900/20">
@@ -22,7 +24,7 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* SEKCJA 2: LICENCJE I INFORMACJE (Grid) */}
+        {/* SEKCJA 2: LICENCJE I INFORMACJE */}
         <div className="grid md:grid-cols-12 gap-10 mb-10 border-b border-slate-800 pb-10">
           
           {/* Kolumna Lewa: Lista Licencji */}
@@ -46,7 +48,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Kolumna Prawa: O nas i Menu */}
+          {/* Kolumna Prawa: O nas */}
           <div className="md:col-span-5 flex flex-col justify-between">
               <div>
                 <h4 className="font-bold text-slate-300 mb-4 uppercase tracking-wide text-[11px] border-b border-slate-800/50 pb-2 inline-block">
@@ -67,11 +69,20 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center gap-6 pt-2">
           
           <div className="flex flex-wrap justify-center md:justify-start gap-6 font-bold text-slate-400 text-xs">
-            <a href="/regulamin" className="hover:text-white transition hover:underline underline-offset-4">Regulamin</a>
-            <a href="/polityka-prywatnosci" className="hover:text-white transition hover:underline underline-offset-4">Polityka Prywatności</a>
-            {/* ZMIANA: Dodano link do Zasad Afiliacji */}
-            <a href="/zasady-afiliacji" className="hover:text-white transition hover:underline underline-offset-4">Zasady Afiliacji</a>
-            <a href="mailto:kontakt@bukbonus.pl" className="hover:text-white transition hover:underline underline-offset-4">Kontakt</a>
+            {/* Używamy Link do nawigacji wewnętrznej */}
+            <Link href="/regulamin" className="hover:text-white transition hover:underline underline-offset-4">
+              Regulamin
+            </Link>
+            <Link href="/polityka-prywatnosci" className="hover:text-white transition hover:underline underline-offset-4">
+              Polityka Prywatności
+            </Link>
+            <Link href="/zasady-afiliacji" className="hover:text-white transition hover:underline underline-offset-4">
+              Zasady Afiliacji
+            </Link>
+            {/* Mailto zostaje jako zwykły a */}
+            <a href="mailto:bukbonuskontakt@gmail.com" className="hover:text-white transition hover:underline underline-offset-4">
+              Kontakt
+            </a>
           </div>
 
           <div className="text-center md:text-right">

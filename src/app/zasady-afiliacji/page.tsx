@@ -54,25 +54,8 @@ export default function AffiliatePrinciplesPage() {
               <li><strong>Banery reklamowe:</strong> Graficzne elementy promujące konkretne marki.</li>
             </ul>
 
-            <h2 className="text-2xl font-bold text-slate-900 mt-8 mb-4">3. Nasi Partnerzy (Zlecający Reklamę)</h2>
-            <p>
-              Promujemy wyłącznie podmioty działające legalnie na terenie Rzeczypospolitej Polskiej, posiadające stosowne zezwolenie Ministra Finansów 
-              na urządzanie zakładów wzajemnych. Zgodnie z wymogami DSA, informujemy, że naszymi partnerami reklamowymi (zlecającymi reklamy) są m.in.:
-            </p>
-            <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 pl-6 my-4 font-medium text-slate-800">
-              <li>STS S.A.</li>
-              <li>Superbet Zakłady Bukmacherskie Sp. z o.o.</li>
-              <li>Fortuna Online Zakłady Bukmacherskie Sp. z o.o.</li>
-              <li>Betclic (BEM Operations Limited)</li>
-              <li>LV BET Zakłady Bukmacherskie Sp. z o.o.</li>
-              <li>BETFAN Sp. z o.o.</li>
-              <li>Totalbet Zakłady Bukmacherskie Sp. z o.o.</li>
-              <li>E-TOTO Zakłady Bukmacherskie Sp. z o.o.</li>
-              <li>Fuksiarz (Bukmacherska Sp. z o.o.)</li>
-              <li>Forbet Zakłady Bukmacherskie Sp. z o.o.</li>
-            </ul>
 
-            <h2 className="text-2xl font-bold text-slate-900 mt-8 mb-4">4. Parametry Targetowania Reklam (DSA)</h2>
+            <h2 className="text-2xl font-bold text-slate-900 mt-8 mb-4">3. Parametry Targetowania Reklam (DSA)</h2>
             <p>
               Zgodnie z Aktem o Usługach Cyfrowych (DSA), informujemy o głównych parametrach, które decydują o tym, jakie reklamy są Ci wyświetlane:
             </p>
@@ -91,7 +74,7 @@ export default function AffiliatePrinciplesPage() {
               </li>
             </ul>
 
-            <h2 className="text-2xl font-bold text-slate-900 mt-8 mb-4">5. Obiektywizm a Współpraca</h2>
+            <h2 className="text-2xl font-bold text-slate-900 mt-8 mb-4">4. Obiektywizm a Współpraca</h2>
             <p>
               Mimo komercyjnego charakteru współpracy, dokładamy starań, aby nasze recenzje i rankingi były merytoryczne. 
               Oceniamy bukmacherów pod kątem wysokości kursów, jakości aplikacji mobilnej, szybkości wypłat i oferty zakładów. 
@@ -107,7 +90,7 @@ export default function AffiliatePrinciplesPage() {
               <h3 className="font-bold text-blue-900 text-lg mb-2">Masz pytania?</h3>
               <p className="text-blue-800">
                 Jeśli masz jakiekolwiek wątpliwości dotyczące sposobu oznaczania reklam lub naszej współpracy z partnerami, 
-                skontaktuj się z nami: <strong>kontakt@bukbonus.pl</strong>.
+                skontaktuj się z nami: <strong>bukbonuskontakt@gmail.com</strong>.
               </p>
             </div>
 

@@ -20,7 +20,7 @@ export default function TermsPage() {
             <ol className="list-decimal pl-6 space-y-2 my-4">
               <li>Niniejszy Regulamin określa zasady korzystania z serwisu internetowego dostępnego pod adresem www.bukbonus.pl (dalej: "Serwis").</li>
               <li>Właścicielem i Administratorem Serwisu jest: <strong>Łukasz Janus</strong>.</li>
-              <li>Kontakt z Administratorem możliwy jest drogą elektroniczną pod adresem e-mail: <strong>kontakt@bukbonus.pl</strong>.</li>
+              <li>Kontakt z Administratorem możliwy jest drogą elektroniczną pod adresem e-mail: <strong>bukbonuskontakt@gmail.com</strong>.</li>
               <li>Korzystanie z Serwisu jest dobrowolne i bezpłatne dla wszystkich użytkowników sieci Internet.</li>
               <li>Rozpoczęcie korzystania z Serwisu jest równoznaczne z zapoznaniem się, zaakceptowaniem i przestrzeganiem postanowień niniejszego Regulaminu.</li>
             </ol>
