@@ -1,6 +1,6 @@
 import React from 'react';
 import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer'; // <--- DODANO IMPORT
+import Footer from '@/components/Footer';
 
 export default function TermsPage() {
   return (
@@ -19,7 +19,7 @@ export default function TermsPage() {
             <h2 className="text-2xl font-bold text-slate-900 mt-8 mb-4">§1. Postanowienia Ogólne</h2>
             <ol className="list-decimal pl-6 space-y-2 my-4">
               <li>Niniejszy Regulamin określa zasady korzystania z serwisu internetowego dostępnego pod adresem www.bukbonus.pl (dalej: "Serwis").</li>
-              <li>Właścicielem i Administratorem Serwisu jest: <strong>Łukasz Janus</strong>.</li>
+              <li>Właścicielem i Administratorem Serwisu jest: <strong>Redakcja BukBonus.pl</strong> (dalej: "Administrator").</li>
               <li>Kontakt z Administratorem możliwy jest drogą elektroniczną pod adresem e-mail: <strong>bukbonuskontakt@gmail.com</strong>.</li>
               <li>Korzystanie z Serwisu jest dobrowolne i bezpłatne dla wszystkich użytkowników sieci Internet.</li>
               <li>Rozpoczęcie korzystania z Serwisu jest równoznaczne z zapoznaniem się, zaakceptowaniem i przestrzeganiem postanowień niniejszego Regulaminu.</li>
@@ -47,10 +47,12 @@ export default function TermsPage() {
                   <li>Decyzje finansowe podejmowane przez Użytkowników na podstawie treści zawartych w Serwisie.</li>
                   <li>Ewentualne straty finansowe poniesione przez Użytkowników w grach hazardowych.</li>
                   <li>Szkody wynikłe z korzystania z treści zawartych w Serwisie.</li>
-                  <li>Aktualność ofert bukmacherów (kursów, bonusów), które mogą ulec zmianie po publikacji materiału w Serwisie.</li>
                 </ul>
               </li>
-              <li>Administrator dokłada wszelkich starań, aby publikowane treści były rzetelne i aktualne, jednak zastrzega sobie prawo do błędów. Użytkownik powinien każdorazowo weryfikować warunki promocji bezpośrednio na stronie bukmachera.</li>
+              {/* NOWY PUNKT O PROMOCJACH */}
+              <li>
+                <strong>Aktualność ofert i promocji:</strong> Administrator dokłada wszelkich starań, aby publikowane treści były rzetelne. Zastrzegamy jednak, że opisy promocji i bonusów prezentowane w Serwisie mogą różnić się od aktualnej oferty bukmacherów, ponieważ oferty te są dynamicznie zmieniane przez operatorów. W celu upewnienia się co do warunków danej promocji, Użytkownik zobowiązany jest do sprawdzenia aktualnej oferty bezpośrednio na stronie internetowej danego bukmachera.
+              </li>
             </ol>
 
             <h2 className="text-2xl font-bold text-slate-900 mt-8 mb-4">§4. Prawa Autorskie</h2>
@@ -66,15 +68,15 @@ export default function TermsPage() {
             <h2 className="text-2xl font-bold text-slate-900 mt-8 mb-4">§6. Postanowienia Końcowe</h2>
             <ol className="list-decimal pl-6 space-y-2 my-4">
               <li>Administrator zastrzega sobie prawo do zmiany niniejszego Regulaminu w dowolnym czasie.</li>
-              <li>W sprawach nieuregulowanych niniejszym Regulaminem zastosowanie mają przepisy prawa polskiego, w szczególności Kodeksu Cywilnego oraz Ustawy o świadczeniu usług drogą elektroniczną.</li>
-              <li>Graj odpowiedzialnie. Jeśli zauważysz u siebie objawy uzależnienia, skontaktuj się z instytucjami oferującymi pomoc, takimi jak Anonimowi Hazardziści (www.anonimowihazardzisci.org).</li>
+              <li>W sprawach nieuregulowanych niniejszym Regulaminem zastosowanie mają przepisy prawa polskiego.</li>
+              <li>Graj odpowiedzialnie. Jeśli zauważysz u siebie objawy uzależnienia, skontaktuj się z instytucjami oferującymi pomoc, takimi jak Anonimowi Hazardziści.</li>
             </ol>
 
           </div>
         </div>
       </div>
 
-      <Footer /> {/* <--- DODANO FOOTER */}
+      <Footer /> 
     </main>
   );
 }
