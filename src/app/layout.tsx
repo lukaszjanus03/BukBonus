@@ -1,18 +1,34 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-
-// 1. Twoje importy (zachowane)
 import LiveTicker from "@/components/LiveTicker"; 
-
-// 2. Importujemy komponent Cookies (który zrobiliśmy wcześniej)
 import CookieConsent from "@/components/CookieConsent";
+import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
 
+// Twój kod Google Analytics (pobrany ze screena)
+const GA_MEASUREMENT_ID = 'G-G6YJNYFLZ0'; 
+
 export const metadata: Metadata = {
-  title: "BukBonus.pl - Najlepsze Bonusy Bukmacherskie",
-  description: "Ranking legalnych bukmacherów w Polsce. Sprawdź bonusy na start.",
+  title: {
+    default: "Najlepsze Bonusy Bukmacherskie 2026 | Kody Promocyjne",
+    template: "%s | BukBonus.pl"
+  },
+  description: "Odbierz ekskluzywne bonusy bukmacherskie: zakłady bez ryzyka, freebety i bonusy powitalne. Sprawdź aktualne kody promocyjne na 2026 rok.",
+  keywords: ["bonusy bukmacherskie", "promocje", "kody promocyjne", "zakład bez ryzyka", "ranking bukmacherów 2026"],
+  openGraph: {
+    title: "Największe Bonusy Bukmacherskie i Kody Promocyjne",
+    description: "Zgarnij pakiety powitalne. Porównywarka najlepszych ofert.",
+    url: 'https://bukbonus.pl',
+    siteName: 'BukBonus.pl',
+    locale: 'pl_PL',
+    type: 'website',
+  },
+  // Twój kod weryfikacyjny Google Search Console
+  verification: {
+    google: "ldgcHhMf14xFfxROpGI7YZH83lNJUPM-9mSbKtDRcM0", 
+  },
 };
 
 export default function RootLayout({
@@ -23,7 +39,6 @@ export default function RootLayout({
   return (
     <html lang="pl">
       <head>
-        {/* 3. NAPRAWA IKON (FontAwesome CDN) - To naprawi "pusty kwadrat" w menu hamburgerowym */}
         <link 
           rel="stylesheet" 
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" 
@@ -33,18 +48,27 @@ export default function RootLayout({
         />
       </head>
       
-      {/* Dodajemy bg-slate-50, żeby tło strony było spójne z resztą komponentów */}
-      <body className={`${inter.className} bg-slate-50 text-slate-900`}>
-        
-        {/* 4. Twój LiveTicker NA SAMEJ GÓRZE */}
+      <body 
+        className={`${inter.className} bg-slate-50 text-slate-900`}
+        suppressHydrationWarning={true} 
+      >
+        {/* Skrypty Google Analytics */}
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_MEASUREMENT_ID}');
+          `}
+        </Script>
+
         <LiveTicker />
-        
-        {/* Reszta strony (Navbar, Hero, Treść) */}
         {children}
-
-        {/* 5. Baner Cookies (pasek na samym dole) */}
         <CookieConsent />
-
       </body>
     </html>
   );

@@ -19,7 +19,7 @@ export default function TermsPage() {
             <h2 className="text-2xl font-bold text-slate-900 mt-8 mb-4">§1. Postanowienia Ogólne</h2>
             <ol className="list-decimal pl-6 space-y-2 my-4">
               <li>Niniejszy Regulamin określa zasady korzystania z serwisu internetowego dostępnego pod adresem www.bukbonus.pl (dalej: "Serwis").</li>
-              <li>Właścicielem i Administratorem Serwisu jest: <strong>Redakcja BukBonus.pl</strong> (dalej: "Administrator").</li>
+              <li>Właścicielem i Administratorem Serwisu jest: <strong>Redakcja BukBonus.pl</strong> .</li>
               <li>Kontakt z Administratorem możliwy jest drogą elektroniczną pod adresem e-mail: <strong>bukbonuskontakt@gmail.com</strong>.</li>
               <li>Korzystanie z Serwisu jest dobrowolne i bezpłatne dla wszystkich użytkowników sieci Internet.</li>
               <li>Rozpoczęcie korzystania z Serwisu jest równoznaczne z zapoznaniem się, zaakceptowaniem i przestrzeganiem postanowień niniejszego Regulaminu.</li>

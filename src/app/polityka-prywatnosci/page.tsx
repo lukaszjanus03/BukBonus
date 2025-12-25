@@ -30,7 +30,7 @@ export default function PrivacyPage() {
             </h2>
             <p>
               1. Administratorem danych osobowych Użytkowników serwisu BukBonus.pl (zwanego dalej "Serwisem") jest: 
-              <strong> Redakcja BukBonus.pl</strong> (dalej: "Administrator").<br />
+              <strong> Redakcja BukBonus.pl</strong> <br />
               2. Kontakt z Administratorem w sprawach ochrony danych osobowych możliwy jest pod adresem e-mail: 
               <a href="mailto:bukbonuskontakt@gmail.com" className="text-blue-600 font-bold ml-1 hover:underline">bukbonuskontakt@gmail.com</a>.
             </p>

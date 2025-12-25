@@ -1,7 +1,12 @@
-'use client';
-
+import { Metadata } from 'next'; // Dodany import
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+
+// TUTAJ ZMIANA: Metadane dla podstrony
+export const metadata: Metadata = {
+  title: "Aktualne Promocje Bukmacherskie i Bonusy Tymczasowe",
+  description: "Lista wszystkich aktywnych promocji. Freebety, zwroty za przegrane i boosty kursowe na dzisiaj.",
+};
 
 const PROMOTIONS = [
   {
@@ -198,7 +203,6 @@ export default function PromocjePage() {
     <main className="min-h-screen bg-slate-50 font-sans">
       <Navbar />
 
-      {/* HEADER */}
       <header className="bg-white border-b border-gray-200 py-12 px-4">
         <div className="container mx-auto text-center max-w-3xl">
           <h1 className="text-3xl md:text-5xl font-black text-slate-900 mb-4 tracking-tight">
@@ -210,7 +214,6 @@ export default function PromocjePage() {
         </div>
       </header>
 
-      {/* LISTA PROMOCJI */}
       <div className="container mx-auto px-4 py-12 max-w-4xl space-y-16">
         {PROMOTIONS.map((bookie, index) => (
           <section 
@@ -218,11 +221,10 @@ export default function PromocjePage() {
             id={bookie.id} 
             className="scroll-mt-24 bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden"
           >
-            {/* Nagłówek Bukmachera */}
             <div className={`${bookie.color} text-white p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6`}>
               <div className="flex items-center gap-4">
                  <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center p-2 shadow-lg">
-                    <img src={bookie.logo} alt={bookie.name} className="max-w-full max-h-full object-contain" />
+                    <img src={bookie.logo} alt={`Kod promocyjny i bonus ${bookie.name} 2026`} className="max-w-full max-h-full object-contain" />
                  </div>
                  <div>
                     <div className="text-xs font-bold uppercase opacity-80 mb-1">Bukmacher #{index + 1}</div>
@@ -237,10 +239,8 @@ export default function PromocjePage() {
               </div>
             </div>
 
-            {/* Treść Poradnika */}
             <div className="p-6 md:p-10">
                 
-                {/* 1. KROKI - JAK ODEBRAĆ */}
                 <div className="mb-10">
                     <h3 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
                         <i className="fas fa-list-ol text-blue-600"></i> Instrukcja aktywacji (Krok po kroku)
@@ -257,7 +257,6 @@ export default function PromocjePage() {
                     </div>
                 </div>
 
-                {/* 2. SZCZEGÓŁY BONUSÓW */}
                 <div className="mb-10">
                     <h3 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
                         <i className="fas fa-gift text-green-600"></i> Co dokładnie otrzymasz?
@@ -272,7 +271,6 @@ export default function PromocjePage() {
                     </div>
                 </div>
 
-                {/* 3. CTA */}
                 <div className="bg-slate-900 rounded-2xl p-6 md:p-8 text-center relative overflow-hidden">
                     <div className="relative z-10">
                         <h3 className="text-white text-xl font-bold mb-2">Gotowy na grę w {bookie.name}?</h3>
