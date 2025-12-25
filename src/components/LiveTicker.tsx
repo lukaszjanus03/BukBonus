@@ -159,7 +159,7 @@ export default function LiveTicker() {
         {loading ? (
             <div className="px-5 text-xs text-slate-400 italic flex items-center h-full">Ładowanie...</div>
         ) : internalMatches.length === 0 ? (
-            <div className="px-5 text-xs text-slate-400">Brak meczów.</div>
+            <div className="px-5 text-xs text-slate-400">Dzisiaj brak meczów.</div>
         ) : (
             internalMatches.map((match) => {
             const { text, isLive, isHT } = calculateLiveTime(match.utcDate, match.status);

@@ -14,17 +14,15 @@ const LEAGUE_WEIGHTS: Record<string, number> = {
 const BIG_TEAMS = [
     'Real Madrid', 'Barcelona', 'Manchester City', 'Arsenal', 'Liverpool', 'Bayern', 'Dortmund', 'Leverkusen',
     'Juventus', 'Milan', 'Inter', 'PSG', 'Legia', 'Lech', 'Raków', 'Chelsea', 'Manchester United', 'Napoli', 'Atletico',
-    'Newcastle', 'Tottenham', 'Aston Villa'
+    'Newcastle', 'Tottenham', 'Aston Villa', 'Benfica', 'Porto', 'Sporting', 'Marseille', 'Lyon'
 ];
 
 // --- WYSZUKIWANIE ZDJĘĆ ---
 async function getDynamicMatchImage(teamName: string) {
-    // Sprawdzamy, czy klucz istnieje w zmiennych środowiskowych
     if (!UNSPLASH_KEY) return DEFAULT_IMAGE;
 
     try {
         const query = encodeURIComponent(`${teamName} football soccer stadium fans`);
-        // Używamy zmiennej UNSPLASH_KEY zamiast wpisanego klucza
         const url = `https://api.unsplash.com/search/photos?page=1&query=${query}&client_id=${UNSPLASH_KEY}&per_page=1&orientation=landscape&order_by=relevant`;
         
         const res = await fetch(url, { next: { revalidate: 3600 } }); 
@@ -44,12 +42,12 @@ async function getDynamicMatchImage(teamName: string) {
     }
 }
 
-// --- OGROMNA BAZA OPISÓW (80+ WARIANTÓW) ---
+// --- OGROMNA BAZA OPISÓW (TERAZ PONAD 150 WARIANTÓW) ---
 function generateDynamicContent(home: string, away: string, competition: string, time: string, isToday: boolean, leagueCode: string) {
-    const t = time; // krótszy alias
-    const d = isToday ? "Już dzisiaj" : "Wkrótce";
+    const t = time; 
+    const d = isToday ? "Dzisiaj" : "Wkrótce";
 
-    // 1. OGÓLNE / NEUTRALNE (30 wariantów)
+    // 1. OGÓLNE / NEUTRALNE (Rozbudowane do ~60 wariantów)
     const general = [
         `${d} czeka nas fascynujące widowisko. ${home} podejmuje ${away}. Faworyt nie jest oczywisty. Start o ${t}.`,
         `Kibice zgromadzeni na stadionie oczekują zwycięstwa. ${home} vs ${away}. Początek meczu o godzinie ${t}.`,
@@ -80,10 +78,30 @@ function generateDynamicContent(home: string, away: string, competition: string,
         `Ważny sprawdzian dla defensywy. ${home} kontra ${away}. Kto zachowa czyste konto? Początek o ${t}.`,
         `Mecz, który może namieszać w tabeli. ${home} vs ${away}. Oczy wszystkich zwrócone na to starcie. Godzina ${t}.`,
         `Gwizdek sędziego rozpocznie spektakl. ${home} - ${away}. Bądźcie z nami od ${t}.`,
-        `Futbol na najwyższym poziomie. ${home} podejmuje ${away}. Nie możesz tego przegapić. Start o ${t}.`
+        `Futbol na najwyższym poziomie. ${home} podejmuje ${away}. Nie możesz tego przegapić. Start o ${t}.`,
+        `Czy ${home} potwierdzi wysoką dyspozycję? Rywalem jest nieobliczalne ${away}. Start o ${t}.`,
+        `Szykuje się wymiana ciosów. ${home} kontra ${away}. Remis nie zadowoli nikogo. Godzina ${t}.`,
+        `Trenerzy odkryli karty. ${home} vs ${away}. Taktyka będzie kluczem do sukcesu. Mecz o ${t}.`,
+        `Gospodarze liczą na magię swojego stadionu. ${home} podejmuje ${away}. Start spotkania o ${t}.`,
+        `Starcie, które elektryzuje kibiców. ${home} - ${away}. Kto okaże się lepszy w tym pojedynku? Godzina ${t}.`,
+        `Czy ${away} zdoła zatrzymać ofensywę ${home}? Zadanie będzie trudne. Start o ${t}.`,
+        `Mecz pełen podtekstów. ${home} vs ${away}. Walka o każdą piłkę gwarantowana. Początek o ${t}.`,
+        `Czy twierdza ${home} padnie? ${away} przyjeżdża z jasnym celem. Mecz o ${t}.`,
+        `Analizy wskazują na wyrównany bój. ${home} kontra ${away}. O wyniku mogą zdecydować detale. Start o ${t}.`,
+        `Piłkarski thriller wisi w powietrzu. ${home} podejmuje ${away}. Emocje do ostatniej sekundy. Godzina ${t}.`,
+        `Kto przejmie inicjatywę? ${home} czy ${away}? Przekonamy się już o ${t}.`,
+        `Głodni zwycięstwa gospodarze kontra ambitni goście. ${home} vs ${away}. Start o ${t}.`,
+        `Czy ${home} zdoła narzucić swój styl? ${away} słynie z groźnych kontr. Mecz o ${t}.`,
+        `Ważne punkty do zdobycia. ${home} - ${away}. Nikt nie odstawi nogi. Godzina ${t}.`,
+        `Pojedynek snajperów? ${home} kontra ${away}. Liczymy na bramki! Start o ${t}.`,
+        `Czy ${home} podtrzyma passę? ${away} zrobi wszystko, by przerwać ich serię. Mecz o ${t}.`,
+        `Wielkie oczekiwania wobec ${home}. Czy ${away} sprawi sensację? Początek o ${t}.`,
+        `Starcie charakterów. ${home} vs ${away}. Wygra ten, kto zachowa zimną krew. Start o ${t}.`,
+        `Czy defensywa ${home} zatrzyma atak ${away}? Kluczowe pytanie przed meczem o ${t}.`,
+        `Wieczór z futbolem. ${home} kontra ${away}. Idealny plan na godzinę ${t}.`
     ];
 
-    // 2. PREMIER LEAGUE
+    // 2. PREMIER LEAGUE (Rozbudowane)
     const eng = [
         `Bitwa o Anglię! ${home} podejmuje na własnym terenie ${away}. Tempo w Premier League jest zabójcze. Start o ${t}.`,
         `Fizyczna walka przez 90 minut. ${home} vs ${away}. Na Wyspach nie ma łatwych meczów. Godzina ${t}.`,
@@ -94,10 +112,15 @@ function generateDynamicContent(home: string, away: string, competition: string,
         `Londyn, Manchester czy Liverpool - gdziekolwiek grają, są emocje. ${home} vs ${away}. Start o ${t}.`,
         `Kick and rush? Nie tym razem. ${home} i ${away} grają nowoczesny futbol. Premier League o ${t}.`,
         `Stadiony w Anglii żyją meczem. ${home} kontra ${away}. Doping poniesie piłkarzy. Początek o ${t}.`,
-        `Szybkie kontry i stałe fragmenty. ${home} vs ${away}. Klasyk angielskiej piłki. Start: ${t}.`
+        `Szybkie kontry i stałe fragmenty. ${home} vs ${away}. Klasyk angielskiej piłki. Start: ${t}.`,
+        `W Premier League każdy może wygrać z każdym. ${home} podejmuje ${away}. Czy zobaczymy niespodziankę? Start o ${t}.`,
+        `Intensywność, szybkość, siła. ${home} kontra ${away}. Angielski futbol nie bierze jeńców. Godzina ${t}.`,
+        `Walka o Top 4 czy utrzymanie? W meczu ${home} - ${away} stawka jest zawsze wysoka. Start o ${t}.`,
+        `Legendarne stadiony, wielkie kluby. ${home} vs ${away}. To dlatego kochamy Premier League. Mecz o ${t}.`,
+        `Czy ${home} wytrzyma tempo narzucone przez ${away}? Premier League weryfikuje przygotowanie. Start o ${t}.`
     ];
 
-    // 3. BUNDESLIGA
+    // 3. BUNDESLIGA (Rozbudowane)
     const ger = [
         `Niemiecka maszyna rusza! ${home} kontra ${away}. W Bundeslidze bramek nigdy nie brakuje. Start o ${t}.`,
         `Gegenpressing w wykonaniu mistrzów. ${home} vs ${away}. Intensywność tego meczu będzie ogromna. Godzina ${t}.`,
@@ -106,10 +129,13 @@ function generateDynamicContent(home: string, away: string, competition: string,
         `Festiwal strzelecki? ${home} vs ${away}. Statystyki w Niemczech wskazują na over bramkowy. Start o ${t}.`,
         `Młode talenty kontra doświadczenie. ${home} podejmuje ${away}. Bundesliga promuje gwiazdy jutra. Godzina ${t}.`,
         `Walka o mistrzostwo Niemiec. ${home} vs ${away}. Każdy punkt jest na wagę złota. Start: ${t}.`,
-        `Ofensywny futbol bez kalkulacji. ${home} kontra ${away}. To lubimy w Bundeslidze najbardziej. Mecz o ${t}.`
+        `Ofensywny futbol bez kalkulacji. ${home} kontra ${away}. To lubimy w Bundeslidze najbardziej. Mecz o ${t}.`,
+        `Czy ${home} przełamie niemiecki porządek w grze ${away}? Czekamy na pierwszy gwizdek o ${t}.`,
+        `Bundesliga to liga szybkich zwrotów akcji. ${home} vs ${away}. Nie mrugaj, bo przegapisz gola! Start o ${t}.`,
+        `Solidna defensywa czy szalony atak? ${home} podejmuje ${away}. Niemiecka piłka w najlepszym wydaniu. Godzina ${t}.`
     ];
 
-    // 4. LA LIGA
+    // 4. LA LIGA (Rozbudowane)
     const esp = [
         `Techniczna wirtuozeria na murawie. ${home} podejmuje ${away}. La Liga to dom dla artystów futbolu. Start o ${t}.`,
         `Hiszpański temperament! ${home} vs ${away}. Kartki, gole i emocje gwarantowane. Godzina ${t}.`,
@@ -117,42 +143,72 @@ function generateDynamicContent(home: string, away: string, competition: string,
         `Wieczór z hiszpańską piłką. ${home} kontra ${away}. Słońce, pasja i futbol. Mecz o ${t}.`,
         `Elita Półwyspu Iberyjskiego. ${home} vs ${away}. Technika użytkowa na najwyższym poziomie. Start o ${t}.`,
         `Walka o dominację w Hiszpanii. ${home} podejmuje ${away}. Kto okaże się lepszy? Godzina ${t}.`,
-        `Magia La Ligi. ${home} - ${away}. Czy zobaczymy gola kolejki? Początek o ${t}.`
+        `Magia La Ligi. ${home} - ${away}. Czy zobaczymy gola kolejki? Początek o ${t}.`,
+        `Czy ${home} zdominuje posiadanie piłki? ${away} poszuka szans w kontrach. Klasyk La Ligi. Start o ${t}.`,
+        `Finezyjne podania i dryblingi. ${home} kontra ${away}. Hiszpański futbol cieszy oko. Mecz o ${t}.`,
+        `Gorąca atmosfera na trybunach. ${home} vs ${away}. W Hiszpanii piłka to religia. Start o ${t}.`
     ];
 
-    // 5. SERIE A
+    // 5. SERIE A (Rozbudowane)
     const ita = [
         `Włoska robota. ${home} podejmuje ${away}. Taktyczne szachy na najwyższym poziomie. Start o ${t}.`,
         `Catenaccio to przeszłość, ale obrona wciąż jest kluczem. ${home} vs ${away}. Serie A nie wybacza błędów. Godzina ${t}.`,
         `Starcie gigantów Calcio. ${home} kontra ${away}. Historia i tradycja na boisku. Start: ${t}.`,
         `Emocje na Półwyspie Apenińskim. ${home} vs ${away}. Tifosi stworzą piekło na trybunach. Mecz o ${t}.`,
         `Walka o Scudetto? ${home} zmierzy się z ${away}. Każdy mecz to finał. Start o ${t}.`,
-        `Taktyczny majstersztyk. ${home} - ${away}. Kto lepiej rozpracował rywala? Godzina ${t}.`
+        `Taktyczny majstersztyk. ${home} - ${away}. Kto lepiej rozpracował rywala? Godzina ${t}.`,
+        `Czy ${home} przełamie żelazną defensywę ${away}? W Serie A gole przychodzą z trudem. Start o ${t}.`,
+        `Włoski styl i elegancja w grze. ${home} podejmuje ${away}. Calcio wciąż ma to coś. Mecz o ${t}.`,
+        `Pojedynek snajperów w Serie A. ${home} vs ${away}. Kto trafi do siatki? Początek o ${t}.`
     ];
 
-    // 6. LIGA MISTRZÓW
+    // 6. LIGUE 1 (NOWE!)
+    const fra = [
+        `Francuska elegancja na boisku. ${home} podejmuje ${away}. Ligue 1 pełna jest talentów. Start o ${t}.`,
+        `Fizyczna siła kontra technika. ${home} vs ${away}. Liga francuska potrafi zaskoczyć. Godzina ${t}.`,
+        `Czy gwiazdy ${home} zaświecą najjaśniej? Rywalem jest ${away}. Mecz we Francji startuje o ${t}.`,
+        `Walka o podium Ligue 1. ${home} kontra ${away}. Każdy punkt na wagę złota. Start o ${t}.`,
+        `Szybcy skrzydłowi i twarda gra. ${home} - ${away}. To wizytówka ligi francuskiej. Mecz o ${t}.`,
+        `Paryż, Marsylia czy Lyon? Gdziekolwiek grają, są emocje. ${home} vs ${away}. Start o ${t}.`,
+        `Młode wilki z ${home} chcą pokazać się światu w meczu z ${away}. Ligue 1 to wylęgarnia gwiazd. Godzina ${t}.`
+    ];
+
+    // 7. LIGA PORTUGALSKA (NOWE!)
+    const por = [
+        `Portugalska szkoła futbolu. ${home} podejmuje ${away}. Technika i polot gwarantowane. Start o ${t}.`,
+        `Gorący mecz na Półwyspie Iberyjskim. ${home} vs ${away}. Liga portugalska to nie tylko wielka trójka. Godzina ${t}.`,
+        `Walka o mistrzostwo Portugalii nabiera rumieńców. ${home} kontra ${away}. Start o ${t}.`,
+        `Czy ${home} wykorzysta atut własnego boiska w starciu z ${away}? Liga NOS w akcji. Mecz o ${t}.`,
+        `Oczy skautów zwrócone na ten mecz. ${home} vs ${away}. Tutaj rodzą się przyszłe gwiazdy. Start o ${t}.`
+    ];
+
+    // 8. LIGA MISTRZÓW (Rozbudowane)
     const cl = [
         `Hymn Ligi Mistrzów zabrzmi dziś dla nich. ${home} vs ${away}. Europejska elita w akcji. Start o ${t}.`,
         `Droga do finału wiedzie przez ten mecz. ${home} podejmuje ${away}. Tutaj rodzą się legendy. Godzina ${t}.`,
         `Wieczór mistrzów! ${home} kontra ${away}. Najlepsze kluby, najlepsi piłkarze. Start: ${t}.`,
         `Prestiż i wielkie pieniądze. ${home} vs ${away}. Champions League to inny wymiar futbolu. Mecz o ${t}.`,
-        `Starcie tytanów Europy. ${home} - ${away}. Cały piłkarski świat patrzy na ten mecz. Start o ${t}.`
+        `Starcie tytanów Europy. ${home} - ${away}. Cały piłkarski świat patrzy na ten mecz. Start o ${t}.`,
+        `Magiczne noce w Lidze Mistrzów. ${home} podejmuje ${away}. Emocje sięgną zenitu o ${t}.`,
+        `Kto przybliży się do upragnionego trofeum? ${home} czy ${away}? Przekonamy się o ${t}.`
     ];
 
     // --- LOGIKA MIESZANIA ---
-    let pool = [...general]; 
+    let pool = [...general, ...general]; // Podwójna dawka ogólnych, żeby była baza
 
-    if (leagueCode === 'PL') pool = [...pool, ...eng, ...eng, ...eng]; 
-    if (leagueCode === 'BL1') pool = [...pool, ...ger, ...ger, ...ger];
-    if (leagueCode === 'PD') pool = [...pool, ...esp, ...esp, ...esp];
-    if (leagueCode === 'SA') pool = [...pool, ...ita, ...ita, ...ita];
-    if (leagueCode === 'CL') pool = [...pool, ...cl, ...cl, ...cl];
+    // Dodajemy specyficzne teksty w zależności od ligi (zwiększamy wagę specyficznych)
+    if (leagueCode === 'PL') pool = [...pool, ...eng, ...eng, ...eng, ...eng]; 
+    if (leagueCode === 'BL1') pool = [...pool, ...ger, ...ger, ...ger, ...ger];
+    if (leagueCode === 'PD') pool = [...pool, ...esp, ...esp, ...esp, ...esp];
+    if (leagueCode === 'SA') pool = [...pool, ...ita, ...ita, ...ita, ...ita];
+    if (leagueCode === 'FL1') pool = [...pool, ...fra, ...fra, ...fra, ...fra]; // Ligue 1
+    if (leagueCode === 'PPL') pool = [...pool, ...por, ...por, ...por, ...por]; // Portugalia
+    if (leagueCode === 'CL') pool = [...pool, ...cl, ...cl, ...cl, ...cl];
 
     return pool[Math.floor(Math.random() * pool.length)];
 }
 
 export async function GET() {
-  // Bezpiecznik: jeśli klucze nie są załadowane z .env, przerywamy działanie
   if (!API_KEY || !UNSPLASH_KEY) {
       console.error("BRAK KLUCZY API w zmiennych środowiskowych (.env.local)");
       return NextResponse.json({ error: 'Błąd konfiguracji serwera: brak kluczy API.' }, { status: 500 });
@@ -166,7 +222,6 @@ export async function GET() {
     const dateFrom = today.toISOString().split('T')[0];
     const dateTo = next3Days.toISOString().split('T')[0];
     
-    // Używamy zmiennej API_KEY zamiast wpisanego klucza
     const res = await fetch(`${API_URL}?competitions=PL,BL1,SA,PD,FL1,PPL,CL,DED&dateFrom=${dateFrom}&dateTo=${dateTo}`, {
       headers: { 'X-Auth-Token': API_KEY },
       next: { revalidate: 3600 } 
@@ -211,7 +266,6 @@ export async function GET() {
         if (isToday) dateLabel = "DZISIAJ";
         if (isTomorrow) dateLabel = "JUTRO";
 
-        // Szukamy zdjęcia GOSPODARZA
         const imageUrl = await getDynamicMatchImage(homeFull);
 
         return {
@@ -220,7 +274,6 @@ export async function GET() {
             category: m.competition.name === 'Primeira Liga' ? 'Liga Portugalska' : m.competition.name,
             date: dateLabel,
             time: time,
-            // Przekazujemy kod ligi, żeby tekst był dopasowany
             content: generateDynamicContent(homeShort, awayShort, m.competition.name, time, isToday, m.competition.code),
             image: imageUrl 
         };
