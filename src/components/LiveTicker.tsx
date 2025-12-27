@@ -146,7 +146,8 @@ export default function LiveTicker() {
   };
 
   return (
-    <div className="sticky top-0 w-full h-14 bg-[#0f172a] text-white border-b border-slate-700 z-[100] flex shadow-lg font-sans select-none overflow-hidden">
+    // ZMIANA: fixed top-16 (pod navbarem), w-full (szerokość 100%), z-40 (żeby menu było nad nim)
+    <div className="fixed top-0 left-0 w-full h-14 bg-[#0f172a] text-white border-b border-slate-700 z-40 flex shadow-lg font-sans select-none overflow-hidden">
       
       <div className="bg-[#dc2626] px-3 flex items-center justify-center shrink-0 min-w-[100px] relative z-20">
          <div className="flex items-center gap-2">

@@ -1,6 +1,15 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link'; // Import Link
+
+interface RankingProps {
+  currentDate?: string;
+}
+
+// ... (Interface Bookmaker i CONST BOOKMAKERS bez zmian - skopiuj ze starego pliku lub zostaw jak masz)
+// WAŻNE: W tablicy BOOKMAKERS upewnij się, że nazwy (name) to 'Superbet', 'STS', 'Fortuna' itd.,
+// bo na ich podstawie budujemy link do poradnika (toLowerCase).
 
 interface Bookmaker {
   id: number;
@@ -15,6 +24,8 @@ interface Bookmaker {
 }
 
 const BOOKMAKERS: Bookmaker[] = [
+  // ... Twoja tablica z danymi (skopiuj ją z poprzedniego pliku, nie zmieniaj jej) ...
+  // Dla pewności wklejam 3 pierwsze przykłady, resztę zostaw jak masz
   {
     id: 1,
     name: 'Superbet',
@@ -46,6 +57,8 @@ const BOOKMAKERS: Bookmaker[] = [
         '60 PLN - Bonusy za wykonanie zadań'
     ]
   },
+  // ... reszta bukmacherów ...
+  // UWAGA: Skopiuj tu resztę tablicy BOOKMAKERS z Twojego obecnego pliku, żeby nic nie zginęło!
   {
     id: 3,
     name: 'Fortuna',
@@ -63,7 +76,7 @@ const BOOKMAKERS: Bookmaker[] = [
         '10 PLN - Freebet za pierwszą wpłatę'
     ]
   },
-  {
+    {
     id: 4,
     name: 'Betclic',
     logo: 'https://dam.begmedia.com/front/native-apps/app-sports.png',
@@ -172,132 +185,137 @@ const BOOKMAKERS: Bookmaker[] = [
   }
 ];
 
-export default function Ranking() {
+export default function Ranking({ currentDate }: RankingProps) {
   const [expandedBookie, setExpandedBookie] = useState<number | null>(null);
+  const displayDate = currentDate || '2026';
 
   const toggleBonuses = (id: number) => {
-      if (expandedBookie === id) {
-          setExpandedBookie(null);
-      } else {
-          setExpandedBookie(id);
-      }
+      setExpandedBookie(expandedBookie === id ? null : id);
   };
 
   return (
-    <section id="ranking" className="py-16 bg-white">
+    <section id="ranking" className="py-8 bg-white">
       <div className="container mx-auto px-4 max-w-4xl">
-        
-        <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">
-                Ranking Bukmacherów <span className="text-blue-600">2025</span>
+        <div className="text-center mb-10">
+            <h2 className="text-2xl md:text-3xl font-black text-slate-900 mb-2">
+                Ranking Bukmacherów <span className="text-blue-600">{displayDate}</span>
             </h2>
-            <p className="text-slate-500 text-lg">
-                Najlepsze bonusy powitalne i legalni operatorzy w Polsce.
+            <p className="text-slate-500 text-base">
+                Aktualne pakiety powitalne. Wybierz najlepszą ofertę dla siebie.
             </p>
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-4">
           {BOOKMAKERS.map((bookie, index) => (
-            <div 
-                key={bookie.id} 
-                className="bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden hover:shadow-xl transition-shadow duration-300 relative group"
-            >
-              {/* Oznaczenie miejsca dla TOP 3 */}
+            <div key={bookie.id} className="bg-white rounded-xl shadow-md border border-slate-100 overflow-hidden hover:shadow-lg transition-shadow duration-300 relative group">
+              
+              {/* Badge TOP 3 */}
               {index < 3 && (
                   <div className={`absolute top-0 left-0 text-white text-[10px] font-bold px-3 py-1 rounded-br-lg z-10 ${index === 0 ? 'bg-yellow-400' : index === 1 ? 'bg-gray-400' : 'bg-orange-400'}`}>
                       #{index + 1}
                   </div>
               )}
 
-              {/* GŁÓWNA CZĘŚĆ KARTY */}
-              <div className="p-6 flex flex-col md:flex-row items-center gap-6">
+              <div className="p-4 flex flex-col md:flex-row items-center gap-4">
                 
-                {/* 1. Logo, Ocena i PRZYCISK BONUSU */}
-                <div className="flex flex-col items-center justify-center w-full md:w-40 shrink-0">
-                    <div className="w-24 h-12 relative mb-2 flex items-center justify-center p-1">
+                {/* Logo & Rating */}
+                <div className="flex flex-col items-center justify-center w-full md:w-32 shrink-0">
+                    <div className="w-24 h-10 relative mb-1 flex items-center justify-center">
                         <img 
                             src={bookie.logo} 
-                            alt={bookie.name} 
+                            alt={`Kod promocyjny ${bookie.name}`} 
                             className="max-w-full max-h-full object-contain"
+                            onError={(e) => { (e.target as HTMLImageElement).src = 'https://via.placeholder.com/100x50?text=LOGO'; }}
                         />
                     </div>
-                    <div className="flex items-center gap-1 text-yellow-400 text-sm font-bold mb-3">
+                    <div className="flex items-center gap-1 text-yellow-400 text-xs font-bold mb-2">
                         <i className="fas fa-star"></i>
                         <span className="text-slate-700">{bookie.rating}/5.0</span>
                     </div>
-                    
-                    {/* --- PRZYCISK ZOBACZ BONUS (ZIELONY I WIĘKSZY) --- */}
                     <button 
                         onClick={() => toggleBonuses(bookie.id)}
-                        className={`w-full py-2.5 px-3 text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1.5 border shadow-sm ${expandedBookie === bookie.id ? 'bg-green-200 text-green-800 border-green-300' : 'bg-green-100 text-green-700 border-green-200 hover:bg-green-200 hover:scale-[1.02]'}`}
+                        className={`w-full py-2 px-2 text-[11px] font-bold rounded-md transition-all flex items-center justify-center gap-1 border shadow-sm ${expandedBookie === bookie.id ? 'bg-green-100 text-green-800 border-green-200' : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-green-50'}`}
                     >
-                        <span>{expandedBookie === bookie.id ? 'Ukryj bonus' : 'Zobacz bonus'}</span>
-                        <i className={`fas fa-chevron-down transition-transform duration-300 ${expandedBookie === bookie.id ? 'rotate-180' : ''}`}></i>
+                        <span>{expandedBookie === bookie.id ? 'Ukryj' : 'Szczegóły'}</span>
+                        <i className={`fas fa-chevron-down text-[10px] transition-transform duration-300 ${expandedBookie === bookie.id ? 'rotate-180' : ''}`}></i>
                     </button>
                 </div>
 
-                {/* 2. Cechy i Bonus Główny */}
-                <div className="flex-grow text-center md:text-left border-t md:border-t-0 md:border-l border-slate-100 pt-4 md:pt-0 md:pl-6 w-full">
-                    <h3 className="text-xl font-black text-slate-800 mb-2">{bookie.name}</h3>
+                {/* Content */}
+                <div className="flex-grow text-center md:text-left border-t md:border-t-0 md:border-l border-slate-100 pt-3 md:pt-0 md:pl-4 w-full">
+                    {/* ZROBIŁEM NAZWĘ KLIKALNĄ DO PORADNIKA */}
+                    <Link href={`/poradnik/${bookie.name.toLowerCase()}`} className="text-lg font-black text-slate-800 mb-1 hover:text-blue-600 transition-colors flex items-center justify-center md:justify-start gap-2">
+                        {bookie.name}
+                        <i className="fas fa-info-circle text-slate-300 text-xs"></i>
+                    </Link>
                     
-                    {/* Cechy */}
-                    <div className="flex flex-wrap justify-center md:justify-start gap-2 mb-4">
-                        {bookie.features.map((feature, i) => (
-                            <span key={i} className="bg-slate-50 text-slate-500 text-[10px] font-bold px-2 py-1 rounded border border-slate-200">
+                    <div className="flex flex-wrap justify-center md:justify-start gap-1.5 mb-3">
+                        {bookie.features.slice(0, 3).map((feature, i) => (
+                            <span key={i} className="bg-slate-50 text-slate-500 text-[9px] font-bold px-1.5 py-0.5 rounded border border-slate-200">
                                 {feature}
                             </span>
                         ))}
                     </div>
 
-                    {/* Bonus Główny */}
                     <div className="flex flex-col md:flex-row items-center gap-2">
-                        <span className="text-slate-400 text-xs font-bold uppercase">Pakiet na start:</span>
-                        <span className={`text-2xl font-black ${bookie.id === 1 ? 'text-red-600' : 'text-slate-900'}`}>
+                        <span className="text-slate-400 text-[10px] font-bold uppercase tracking-wider">Pakiet:</span>
+                        <span className={`text-xl font-black ${index === 0 ? 'text-red-600' : 'text-slate-900'}`}>
                             {bookie.bonus}
                         </span>
                     </div>
                 </div>
 
-                {/* 3. Przycisk CTA */}
-                <div className="w-full md:w-auto shrink-0 flex flex-col gap-2">
+                {/* CTA Buttons */}
+                <div className="w-full md:w-auto shrink-0 flex flex-col gap-1.5">
                     <a 
                         href={bookie.link} 
                         target="_blank" 
                         rel="nofollow noreferrer"
-                        className={`block w-full md:w-48 text-center text-white font-bold py-3.5 rounded-xl shadow-lg transition transform hover:-translate-y-1 ${bookie.bgColor} hover:brightness-110`}
+                        className={`block w-full md:w-44 text-center text-white font-bold py-3 rounded-lg shadow-md transition transform hover:-translate-y-0.5 ${bookie.bgColor} hover:brightness-110 text-sm`}
                     >
                         Odbierz Bonus
                     </a>
+                    
+                    {/* NOWY LINK: INSTRUKCJA */}
+                    <Link 
+                        href={`/poradnik/${bookie.name.toLowerCase()}`}
+                        className="block w-full md:w-44 text-center text-slate-500 font-bold py-1.5 text-[10px] hover:text-blue-600 transition-colors border border-transparent hover:border-blue-100 rounded"
+                    >
+                        <i className="fas fa-book-open mr-1"></i> Jak odebrać?
+                    </Link>
+
                     <div className="text-[10px] text-center text-slate-400">
-                        Kod: <span className="font-bold text-slate-600">BUKBONUS</span>
+                        Kod: <span className="font-bold text-slate-700 select-all cursor-pointer">BUKBONUS</span>
                     </div>
                 </div>
               </div>
 
-              {/* ROZWIJANA LISTA BONUSÓW */}
-              <div 
-                  className={`bg-green-50/50 border-t border-slate-100 transition-all duration-300 ease-in-out overflow-hidden ${expandedBookie === bookie.id ? 'max-h-96 opacity-100 p-6' : 'max-h-0 opacity-0 p-0'}`}
-              >
+              {/* Expanded Details */}
+              <div className={`bg-slate-50 border-t border-slate-100 transition-all duration-300 ease-in-out overflow-hidden ${expandedBookie === bookie.id ? 'max-h-96 opacity-100 p-4' : 'max-h-0 opacity-0 p-0'}`}>
                   <div className="grid md:grid-cols-2 gap-4">
                       <div>
-                          <h4 className="font-bold text-slate-700 mb-3 text-sm flex items-center gap-2">
-                              <i className="fas fa-gift text-green-600"></i> Co wchodzi w skład pakietu?
+                          <h4 className="font-bold text-slate-700 mb-2 text-xs flex items-center gap-1.5">
+                              <i className="fas fa-gift text-green-600"></i> Co zawiera pakiet powitalny?
                           </h4>
-                          <ul className="space-y-2">
+                          <ul className="space-y-1.5">
                               {bookie.bonuses.map((bonusLine, idx) => (
-                                  <li key={idx} className="text-sm text-slate-600 flex items-start gap-2">
-                                      <i className="fas fa-check-circle text-green-500 mt-0.5 shrink-0 text-xs"></i>
+                                  <li key={idx} className="text-xs text-slate-600 flex items-start gap-2">
+                                      <i className="fas fa-check text-green-500 mt-0.5 shrink-0 text-[10px]"></i>
                                       <span>{bonusLine}</span>
                                   </li>
                               ))}
                           </ul>
                       </div>
                       <div className="flex items-center justify-center border-l border-slate-200 pl-4">
-                           <div className="text-center">
-                               <p className="text-xs text-slate-400 mb-2">Oferta ważna tylko z naszym linkiem</p>
-                               <a href={bookie.link} className="text-blue-600 font-bold text-sm hover:underline">
-                                   Przejdź do rejestracji <i className="fas fa-arrow-right ml-1"></i>
+                           <div className="text-center flex flex-col gap-2">
+                               <p className="text-[10px] text-slate-400">Rejestracja zajmuje 2 minuty</p>
+                               <a href={bookie.link} className="text-blue-600 font-bold text-xs hover:underline flex items-center justify-center gap-1">
+                                   Przejdź do strony <i className="fas fa-external-link-alt text-[10px]"></i>
                                </a>
+                               {/* DODATKOWY LINK W SZCZEGÓŁACH */}
+                               <Link href={`/poradnik/${bookie.name.toLowerCase()}`} className="text-slate-500 font-bold text-xs hover:text-slate-800 flex items-center justify-center gap-1">
+                                   Zobacz pełną instrukcję <i className="fas fa-arrow-right text-[10px]"></i>
+                               </Link>
                            </div>
                       </div>
                   </div>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import LiveTicker from "@/components/LiveTicker"; 
+import Navbar from "@/components/Navbar"; // <--- DODANO IMPORT NAVBARA
 import CookieConsent from "@/components/CookieConsent";
 import Script from "next/script";
 
@@ -66,8 +67,17 @@ export default function RootLayout({
           `}
         </Script>
 
+        {/* 1. LiveTicker (fixed top-0) */}
         <LiveTicker />
-        {children}
+
+        {/* 2. Navbar (fixed top-14) - DODANO */}
+        <Navbar />
+
+        {/* 3. Główna treść z paddingiem (pt-120px), żeby nie wchodziła pod paski */}
+        <main className="min-h-screen pt-[120px]">
+             {children}
+        </main>
+        
         <CookieConsent />
       </body>
     </html>
