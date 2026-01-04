@@ -1,11 +1,11 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  // 1. Zabezpieczenie: Nagłówki HTTP (Security Headers)
+  // 1. Zabezpieczenie: Nagłówki HTTP (Zostawiamy Twoje - są super!)
   async headers() {
     return [
       {
-        source: '/:path*', // Te reguły dotyczą każdej podstrony
+        source: '/:path*',
         headers: [
           {
             key: 'X-DNS-Prefetch-Control',
@@ -13,63 +13,35 @@ const nextConfig: NextConfig = {
           },
           {
             key: 'Strict-Transport-Security',
-            value: 'max-age=63072000; includeSubDomains; preload' // Wymusza HTTPS (ważne na produkcji)
+            value: 'max-age=63072000; includeSubDomains; preload'
           },
           {
             key: 'X-Frame-Options',
-            value: 'SAMEORIGIN' // Blokuje ładowanie strony w ramkach (iframe) na obcych stronach
+            value: 'SAMEORIGIN'
           },
           {
             key: 'X-Content-Type-Options',
-            value: 'nosniff' // Zapobiega błędnej interpretacji typów plików
+            value: 'nosniff'
           },
           {
             key: 'Referrer-Policy',
-            value: 'origin-when-cross-origin' // Chroni prywatność użytkownika
+            value: 'origin-when-cross-origin'
           }
         ]
       }
     ];
   },
 
-  // 2. Optymalizacja obrazków (Dopuszczamy zewnętrzne domeny)
+ 
   images: {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'images.unsplash.com',
+        hostname: '**', // Gwiazdki oznaczają "zezwól na wszystko z HTTPS"
       },
       {
         protocol: 'http',
-        hostname: 'googleusercontent.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'encrypted-tbn0.gstatic.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'i1.sndcdn.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'dam.begmedia.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'gramgrubo.pl',
-      },
-      {
-        protocol: 'https',
-        hostname: 'pewniaczki.pl',
-      },
-      {
-        protocol: 'https',
-        hostname: 'surebety.pl',
-      },
-      {
-        protocol: 'https',
-        hostname: 'upload.wikimedia.org',
+        hostname: '**', // Zezwól na wszystko z HTTP
       },
     ],
   },

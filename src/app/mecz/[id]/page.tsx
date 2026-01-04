@@ -127,9 +127,28 @@ export default function MatchPage({ params }: MatchPageProps) {
                         <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center text-blue-600"><i className="fas fa-search"></i></div>
                         Analiza Przedmeczowa
                     </h2>
-                    <p className="text-slate-600 leading-relaxed text-lg text-justify font-medium">
+                    <p className="text-slate-600 leading-relaxed text-lg text-justify font-medium mb-6">
                         {match.analysis.preview}
                     </p>
+
+                    {/* --- NOWOŚĆ: INTERNAL LINKING BOX --- */}
+                    <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg">
+                        <p className="text-sm text-yellow-800 font-bold flex items-center gap-2">
+                            <i className="fas fa-lightbulb text-yellow-600"></i>
+                            Pro Tip:
+                        </p>
+                        <p className="text-sm text-slate-700 mt-1">
+                            Chcesz obstawić ten mecz bez ryzyka? Nowi gracze w 
+                            <Link href="/poradnik/superbet" className="font-bold text-blue-600 hover:underline mx-1">
+                                Superbet
+                            </Link> 
+                            otrzymują zwrot do 3500 PLN za pierwszy tydzień gry! 
+                            <Link href="/#ranking" className="font-bold text-blue-600 hover:underline ml-1">
+                                Sprawdź ranking bukmacherów.
+                            </Link>
+                        </p>
+                    </div>
+                    {/* ------------------------------------- */}
                 </div>
 
                 <div className="bg-white p-8 rounded-2xl shadow-lg border border-slate-100">
@@ -146,7 +165,6 @@ export default function MatchPage({ params }: MatchPageProps) {
                                 <h3 className="font-black text-slate-800 text-lg">{match.homeTeam}</h3>
                             </div>
                             
-                            {/* --- LEGENDA DLA GOSPODARZY --- */}
                             <div className="flex justify-between px-2 mb-2 text-[9px] font-bold text-slate-400 uppercase tracking-widest w-full max-w-[240px] mx-auto">
                                 <span className="flex items-center gap-1 text-blue-600"><i className="fas fa-arrow-left"></i> Najnowszy</span>
                                 <span>Starsze</span>
@@ -168,7 +186,6 @@ export default function MatchPage({ params }: MatchPageProps) {
                                 <h3 className="font-black text-slate-800 text-lg">{match.awayTeam}</h3>
                             </div>
 
-                            {/* --- LEGENDA DLA GOŚCI --- */}
                             <div className="flex justify-between px-2 mb-2 text-[9px] font-bold text-slate-400 uppercase tracking-widest w-full max-w-[240px] mx-auto">
                                 <span className="flex items-center gap-1 text-blue-600"><i className="fas fa-arrow-left"></i> Najnowszy</span>
                                 <span>Starsze</span>

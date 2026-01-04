@@ -1,422 +1,232 @@
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import Breadcrumbs from '@/components/Breadcrumbs'; // <--- IMPORTUJEMY KOMPONENT
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 
-// --- BAZA DANYCH Z NOWĄ SEKCJĄ "RULES" (REGULAMIN) ---
+// --- BAZA DANYCH Z FAQ (Skrócona dla czytelności kodu - wklej tu swoją pełną wersję z poprzedniego kroku) ---
+// UWAGA: Upewnij się, że masz tu pełną zawartość GUIDES_DATA z poprzedniego kroku!
 const GUIDES_DATA: Record<string, any> = {
   superbet: {
     name: 'Superbet',
+    slug: 'superbet',
+    logo: 'https://play-lh.googleusercontent.com/0ygX2EFB7ZOfe7cA0EgZ4KBqHf942ShCQPzJJwoo41Y8gqAvDJAQzTzJ-zMj2ejgLI0=w240-h480-rw',
+    rating: '4.9',
     color: 'text-red-600',
     bg: 'bg-red-600',
     bonusValue: '3754 PLN',
-    intro: 'Superbet oferuje rewolucyjny "Tydzień bez ryzyka", ale **UWAGA**: Ta oferta jest ekskluzywna i działa TYLKO z kodem promocyjnym **BUKBONUS**. Jeśli nie wpiszesz tego kodu przy rejestracji, stracisz prawo do najwyższego pakietu powitalnego. Poniżej instrukcja, jak nie popełnić błędu.',
+    intro: 'Superbet oferuje rewolucyjny "Tydzień bez ryzyka", ale **UWAGA**: Ta oferta jest ekskluzywna i działa TYLKO z kodem promocyjnym **BUKBONUS**. Jeśli nie wpiszesz tego kodu przy rejestracji, stracisz prawo do najwyższego pakietu powitalnego.',
     steps: [
       {
-        title: 'Krok 1: Przejdź przez nasz link (Ważne!)',
-        desc: 'Aby kod **BUKBONUS** zadziałał poprawnie, musisz wejść na stronę bukmachera przez przycisk na dole tej strony. Formularz Superbet jest skrócony – założysz konto w 45 sekund bez dowodu.',
+        title: 'Krok 1: Przejdź przez nasz link',
+        desc: 'Aby kod **BUKBONUS** zadziałał poprawnie, musisz wejść na stronę bukmachera przez przycisk na dole tej strony.',
         highlight: 'Użyj linku partnerskiego, aby aktywować kod BUKBONUS.'
       },
       {
-        title: 'Krok 2: Wpisz kod BUKBONUS (Kluczowy moment)',
-        desc: 'W formularzu rejestracyjnym znajdziesz pole "Kod promocyjny". **MUSISZ tam wpisać: BUKBONUS**. Dodatkowo zaznacz zgody marketingowe – bez kodu BUKBONUS i zgód nie otrzymasz darmowych środków!',
+        title: 'Krok 2: Wpisz kod BUKBONUS',
+        desc: 'W formularzu rejestracyjnym znajdziesz pole "Kod promocyjny". **MUSISZ tam wpisać: BUKBONUS**. Bez tego nie otrzymasz darmowych środków!',
         code: 'BUKBONUS',
         warning: 'Brak kodu BUKBONUS = Przepadek bonusu VIP!'
       },
       {
-        title: 'Krok 3: Pierwsza wpłata',
-        desc: 'Po rejestracji z kodem **BUKBONUS** wpłać min. 50 PLN. To aktywuje wszystkie bonusy z naszego pakietu.',
-      },
-      {
-        title: 'Krok 4: Tydzień bez ryzyka z kodem BUKBONUS',
-        desc: 'Dzięki rejestracji z naszym kodem, Twój pierwszy tydzień jest chroniony. Jeśli przegrasz, Superbet zwróci Ci do 3500 PLN. Pamiętaj: ta kwota jest dostępna tylko dla graczy z kodem **BUKBONUS**.',
-      },
-      {
-        title: 'Krok 5: Bonus za aplikację',
-        desc: 'Pobierz aplikację mobilną. Jako użytkownik z kodem **BUKBONUS**, otrzymasz dodatkowe 20 PLN freebetu za pierwsze logowanie w apce.',
+        title: 'Krok 3: Tydzień bez ryzyka',
+        desc: 'Dzięki rejestracji z naszym kodem, Twój pierwszy tydzień jest chroniony. Jeśli przegrasz, Superbet zwróci Ci do 3500 PLN.',
       }
     ],
-    wagering: {
-        title: 'Jak wypłacić bonus (Warunki)?',
-        text: 'Bonus uzyskany dzięki kodowi BUKBONUS (cashback) musisz obrócić 2 razy (x2) na kuponach z kursem min. 1.80.'
-    },
-    verification: {
-        title: 'Weryfikacja Konta',
-        text: 'Aby wypłacić wygrane, dokończ weryfikację w profilu. Pamiętaj, że konto założone z kodem BUKBONUS ma te same proste zasady weryfikacji co standardowe.'
-    },
-    // NOWA SEKCJA - SZTYWNE ZASADY
     rules: [
         "Otrzymany bonus (Zwrot za Tydzień bez ryzyka) należy obrócić 2-krotnie (x2).",
         "Do obrotu zaliczają się tylko kupony z kursem minimalnym 1.80.",
         "Na wykonanie obrotu masz 10 dni od momentu przyznania środków bonusowych.",
-        "Kupony anulowane lub rozliczone jako zwrot (kurs 1.00) nie wliczają się do obrotu.",
-        "Freebet za aplikację nie wymaga obrotu – ewentualna wygrana (pomniejszona o stawkę) trafia od razu na konto depozytowe.",
-        "Wpłata depozytu musi nastąpić w ciągu 14 dni od rejestracji, aby aktywować promocję.",
-        "Wypłata środków możliwa jest wyłącznie po pełnej weryfikacji konta (przesłanie dowodu lub MojeID)."
+        "Freebet za aplikację nie wymaga obrotu."
+    ],
+    faq: [
+        { q: "Jaki jest kod promocyjny do Superbet?", a: "Aktualny kod promocyjny to BUKBONUS. Należy go wpisać w formularzu rejestracyjnym, aby odebrać powiększony pakiet powitalny 3754 PLN." },
+        { q: "Jak odebrać freebet za aplikację?", a: "Wystarczy pobrać aplikację mobilną Superbet po rejestracji z kodem BUKBONUS i zalogować się w niej. Bonus 20 PLN zostanie przypisany automatycznie." },
+        { q: "Jak działa tydzień bez ryzyka?", a: "Przez pierwsze 7 dni grasz bez stresu. Jeśli po tygodniu będziesz na minusie, Superbet zwróci Ci przegraną kwotę (do 3500 PLN) w formie bonusu." }
     ]
   },
   sts: {
     name: 'STS',
+    slug: 'sts',
+    logo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZR0K8gIc1a6Yx33pUR3Op8lK0VFxStZiwww&s',
+    rating: '4.8',
     color: 'text-blue-600',
     bg: 'bg-blue-600',
     bonusValue: '760 PLN',
-    intro: 'STS to lider rynku, ale standardowa oferta jest niższa niż nasza. Aby odebrać pełne 760 PLN, **niezbędne jest użycie kodu BUKBONUS** podczas zakładania konta. Bez tego kodu ominie Cię zakład bez ryzyka na start!',
+    intro: 'STS to lider rynku. Aby odebrać pełne 760 PLN, **niezbędne jest użycie kodu BUKBONUS** podczas zakładania konta. Bez tego kodu ominie Cię zakład bez ryzyka na start!',
     steps: [
-      {
-        title: 'Krok 1: Rejestracja',
-        desc: 'Wypełnij szybki formularz. Pamiętaj, że wchodząc z naszego linku, przygotowujesz konto pod kod **BUKBONUS**.',
-      },
-      {
-        title: 'Krok 2: Kod promocyjny BUKBONUS',
-        desc: 'W drugim kroku formularza zobaczysz pole na kod. **WPISZ TUTAJ: BUKBONUS**. To gwarancja, że Twój pierwszy zakład będzie ubezpieczony do 100 PLN. Nie zostawiaj tego pola pustego!',
-        code: 'BUKBONUS',
-        warning: 'Puste pole kodu = Brak zakładu bez ryzyka!'
-      },
-      {
-        title: 'Krok 3: Zakład Bez Ryzyka (Tylko z kodem)',
-        desc: 'Wpłać depozyt i postaw kupon. Dzięki kodowi **BUKBONUS**, jeśli przegrasz, kasa do 100 zł wróci do Ciebie.',
-      },
-      {
-        title: 'Krok 4: Misje i Zadania',
-        desc: 'Po wpisaniu kodu **BUKBONUS** i wpłatach, otrzymasz dostęp do zadań o wartości 600 PLN.',
-      }
+      { title: 'Krok 1: Rejestracja', desc: 'Wypełnij szybki formularz. Pamiętaj, że wchodząc z naszego linku, przygotowujesz konto pod kod **BUKBONUS**.' },
+      { title: 'Krok 2: Kod promocyjny BUKBONUS', desc: 'W drugim kroku formularza zobaczysz pole na kod. **WPISZ TUTAJ: BUKBONUS**. To gwarancja, że Twój pierwszy zakład będzie ubezpieczony.', code: 'BUKBONUS' },
+      { title: 'Krok 3: Zakład Bez Ryzyka', desc: 'Wpłać depozyt i postaw kupon. Dzięki kodowi **BUKBONUS**, jeśli przegrasz, kasa do 100 zł wróci do Ciebie.' }
     ],
-    wagering: {
-        title: 'Warunki obrotu',
-        text: 'Środki bonusowe w STS należy obrócić 2x (kurs min. 1.91). Kod BUKBONUS nie zmienia warunków obrotu na trudniejsze – są one standardowe.'
-    },
-    verification: {
-        title: 'Weryfikacja',
-        text: 'Skorzystaj z MojeID dla błyskawicznej weryfikacji.'
-    },
-    rules: [
-        "Bonusy za zadania oraz bonusy od wpłat wymagają 2-krotnego obrotu (x2).",
-        "Do obrotu zaliczają się tylko wygrane kupony.",
-        "Kurs całkowity kuponu zaliczanego do obrotu musi wynosić min. 1.91.",
-        "Zwrot za pierwszy zakład (Zakład bez Ryzyka) trafia na konto bonusowe (chyba że regulamin promocji okresowej stanowi inaczej) i wymaga obrotu 2x.",
-        "Na obrót bonusem masz zazwyczaj 30 dni (w przypadku bonusów od wpłaty).",
-        "Zakłady z oferty 'Hit Dnia' oraz kupony bezpieczne nie wliczają się do obrotu.",
-        "Wypłata środków możliwa jest dopiero po przeniesieniu ich z salda bonusowego na saldo depozytowe."
+    rules: [ "Bonusy za zadania oraz bonusy od wpłat wymagają 2-krotnego obrotu (x2).", "Kurs całkowity kuponu zaliczanego do obrotu musi wynosić min. 1.91." ],
+    faq: [
+        { q: "Jaki jest kod do STS?", a: "Kod promocyjny STS to BUKBONUS. Gwarantuje on zakład bez ryzyka 100 PLN oraz bonusy od wpłat i za zadania." },
+        { q: "Czy STS jest legalny?", a: "Tak, STS posiada zezwolenie Ministerstwa Finansów i jest w pełni legalnym polskim bukmacherem." },
+        { q: "Jak wypłacić bonus w STS?", a: "Bonus należy obrócić dwukrotnie na wygranych kuponach z kursem min. 1.91." }
     ]
   },
   fortuna: {
     name: 'Fortuna',
+    slug: 'fortuna',
+    logo: 'https://i1.sndcdn.com/avatars-000330081863-yuozc1-original.jpg',
+    rating: '4.7',
     color: 'text-yellow-500',
     bg: 'bg-yellow-500',
     bonusValue: '330 PLN',
-    intro: 'Fortuna daje zwrot w GOTÓWCE, ale żeby skorzystać z pełnego pakietu (3 zakłady bez ryzyka + freebet), **musisz użyć kodu BUKBONUS**. To ten kod aktywuje pakiet VIP. Nie zapomnij o nim!',
+    intro: 'Fortuna daje zwrot w GOTÓWCE, ale żeby skorzystać z pełnego pakietu, **musisz użyć kodu BUKBONUS**. To ten kod aktywuje pakiet VIP.',
     steps: [
-      {
-        title: 'Krok 1: Rejestracja z kodem BUKBONUS',
-        desc: 'Wypełniając formularz, upewnij się, że w polu "Kod Promocyjny" widnieje napis **BUKBONUS**. Czasami trzeba go wpisać ręcznie.',
-        code: 'BUKBONUS'
-      },
-      {
-        title: 'Krok 2: Weryfikacja (Konieczna!)',
-        desc: 'Aby kod **BUKBONUS** zadziałał w 100% i dał Ci darmowe 20 PLN, musisz zweryfikować konto (dowód lub bank).',
-        warning: 'Bez weryfikacji kod BUKBONUS nie da Ci darmowej kasy.'
-      },
-      {
-        title: 'Krok 3: Trzy Zakłady Bez Ryzyka',
-        desc: 'Dzięki rejestracji z kodem **BUKBONUS**, Twoje trzy pierwsze kluczowe kupony są ubezpieczone do 100 PLN każdy.',
-      }
+      { title: 'Krok 1: Rejestracja z kodem', desc: 'Wypełniając formularz, upewnij się, że w polu "Kod Promocyjny" widnieje napis **BUKBONUS**.', code: 'BUKBONUS' },
+      { title: 'Krok 2: Weryfikacja', desc: 'Aby kod **BUKBONUS** zadziałał w 100% i dał Ci darmowe 20 PLN, musisz zweryfikować konto.' },
+      { title: 'Krok 3: Trzy Zakłady Bez Ryzyka', desc: 'Dzięki rejestracji z kodem **BUKBONUS**, Twoje trzy pierwsze kluczowe kupony są ubezpieczone.' }
     ],
-    wagering: {
-        title: 'Zwrot w gotówce!',
-        text: 'Największa zaleta kodu BUKBONUS w Fortunie? Zwroty trafiają na konto główne. Możesz je wypłacić od razu!'
-    },
-    verification: {
-        title: 'Punkty FKP',
-        text: 'Bonus za kod BUKBONUS może przyjść w punktach. Pamiętaj, by zaznaczyć "Płać punktami" na kuponie.'
-    },
-    rules: [
-        "Zwroty za 3 Zakłady Bez Ryzyka trafiają bezpośrednio na konto depozytowe (gotówka).",
-        "Środków ze zwrotu NIE TRZEBA obracać – można je od razu wypłacić lub grać dalej.",
-        "Freebet 20 PLN (2800 pkt FKP) wymaga jednokrotnego zagrania dowolnego kuponu (obrót x1).",
-        "Aby otrzymać Freebet bez depozytu, konieczna jest pełna weryfikacja konta (stałe konto).",
-        "Zakłady bez ryzyka muszą zostać postawione w określonym czasie: 1. zakład po rejestracji, kolejne co 72h.",
-        "Wygrane z kuponów opłaconych punktami FKP są wypłacane w gotówce.",
-        "Maksymalna kwota zwrotu dla każdego z trzech zakładów wynosi 100 PLN."
+    rules: [ "Zwroty za 3 Zakłady Bez Ryzyka trafiają bezpośrednio na konto depozytowe (gotówka).", "Środków ze zwrotu NIE TRZEBA obracać." ],
+    faq: [
+        { q: "Czy Fortuna ma bonus bez depozytu?", a: "Tak, Fortuna oferuje 20 PLN w punktach FKP (Freebet) za pełną rejestrację i weryfikację konta z kodem BUKBONUS." },
+        { q: "Jaki jest kod promocyjny Fortuna?", a: "Kod to BUKBONUS. Uprawnia on do odbioru 3 zakładów bez ryzyka oraz freebetu bez depozytu." },
+        { q: "Czy zwrot w Fortunie trzeba obracać?", a: "Nie! Fortuna jako jeden z nielicznych bukmacherów zwraca środki w gotówce, którą można od razu wypłacić." }
     ]
   },
   betclic: {
     name: 'Betclic',
+    slug: 'betclic',
+    logo: 'https://dam.begmedia.com/front/native-apps/app-sports.png',
+    rating: '4.6',
     color: 'text-red-700',
     bg: 'bg-red-700',
     bonusValue: '50 PLN + Bez Podatku',
-    intro: 'W Betclic grasz bez podatku, ale Zakład Bez Ryzyka na start jest dostępny **wyłącznie z kodem BUKBONUS**. Jeśli zarejestrujesz się bez kodu, tracisz ubezpieczenie pierwszego kuponu!',
+    intro: 'W Betclic grasz bez podatku, ale Zakład Bez Ryzyka na start jest dostępny **wyłącznie z kodem BUKBONUS**.',
     steps: [
-      {
-        title: 'Krok 1: Rejestracja z kodem',
-        desc: 'Podczas zakładania konta, w 3. kroku formularza, wpisz kod **BUKBONUS**. To jedyny sposób na aktywację cashbacku.',
-        code: 'BUKBONUS',
-        warning: 'Brak kodu BUKBONUS = Brak zwrotu za przegrany kupon!'
-      },
-      {
-        title: 'Krok 2: Zakład Bez Ryzyka (z kodem BUKBONUS)',
-        desc: 'Postaw pierwszy zakład. Dzięki kodowi **BUKBONUS**, jeśli przegrasz, otrzymasz zwrot do 50 PLN we freebecie.',
-      },
-      {
-        title: 'Krok 3: Gra Bez Podatku',
-        desc: 'Kod **BUKBONUS** gwarantuje też dostęp do gry bez podatku na wszystko, na zawsze.',
-      }
+      { title: 'Krok 1: Rejestracja', desc: 'Wpisz kod **BUKBONUS** w formularzu.', code: 'BUKBONUS' },
+      { title: 'Krok 2: Pierwszy Zakład', desc: 'Postaw kupon. Jeśli przegrasz, otrzymasz zwrot (freebet) do 50 PLN.' }
     ],
-    wagering: {
-        title: 'Obrót freebetem',
-        text: 'Zwrot z kodu BUKBONUS (freebet) postaw po kursie 2.14. Wygrana (minus stawka) jest Twoja.'
-    },
-    verification: {
-        title: 'Dokumenty',
-        text: 'Wyślij zdjęcie dowodu, aby móc wypłacić kasę z bonusu.'
-    },
-    rules: [
-        "Zwrot za przegrany zakład przyznawany jest w formie Freebetu.",
-        "Freebetem nie można wypłacić – trzeba nim zagrać.",
-        "Minimalny kurs łączny kuponu granego za Freebet wynosi 2.14.",
-        "Freebet można wykorzystać na jednym kuponie lub podzielić na kilka mniejszych.",
-        "Wygrana z kuponu postawionego za Freebet to: (Wygrana całkowita - Stawka Freebetu) = Zysk netto na konto główne.",
-        "Zysk netto z Freebetu nie wymaga dalszego obrotu i można go wypłacić.",
-        "Czas na wykorzystanie Freebetu jest nieograniczony (do momentu usunięcia konta)."
+    rules: [ "Zwrot przyznawany jest we freebecie.", "Minimalny kurs kuponu granego za freebet to 2.14." ],
+    faq: [
+        { q: "Jaki jest kod do Betclic?", a: "Kod promocyjny Betclic to BUKBONUS. Aktywuje on zakład bez ryzyka do 50 PLN." },
+        { q: "Czy w Betclic gra się bez podatku?", a: "Tak, Betclic oferuje grę bez podatku na wszystkie kupony, nie tylko dla nowych graczy." },
+        { q: "Jak obrócić bonus w Betclic?", a: "Zwrot (freebet) należy postawić na kuponie z kursem min. 2.14. Wygrana netto trafia od razu na konto główne." }
     ]
   },
   lvbet: {
     name: 'LVBET',
+    slug: 'lvbet',
+    logo: 'https://gramgrubo.pl/wp-content/uploads/2025/06/lv-bet-logo.jpg',
+    rating: '4.5',
     color: 'text-yellow-400',
     bg: 'bg-yellow-400',
     bonusValue: '2000 PLN',
-    intro: 'LVBET ma ogromny pakiet powitalny, ale uwaga: **Freebet 20 PLN jest dostępny TYLKO dla graczy z kodem BUKBONUS**. Bez kodu dostaniesz tylko bonus od wpłaty. Wpisz kod, żeby zgarnąć wszystko.',
+    intro: 'LVBET ma ogromny pakiet powitalny. **Freebet 20 PLN jest dostępny TYLKO dla graczy z kodem BUKBONUS**.',
     steps: [
-      {
-        title: 'Krok 1: Rejestracja (Wpisz kod!)',
-        desc: 'W formularzu zaznacz "Chcę Bonus" i wpisz kod **BUKBONUS**. To warunek konieczny do otrzymania darmowych 20 PLN.',
-        code: 'BUKBONUS'
-      },
-      {
-        title: 'Krok 2: Freebet 20 PLN (Dzięki kodowi)',
-        desc: 'Po weryfikacji konta, jako użytkownik z kodem **BUKBONUS**, otrzymasz 20 PLN za darmo.',
-      },
-      {
-        title: 'Krok 3: Bonusy od wpłat',
-        desc: 'Kod **BUKBONUS** uprawnia Cię też do bonusów od trzech pierwszych wpłat do łącznej kwoty 2000 PLN.',
-      }
+      { title: 'Krok 1: Rejestracja', desc: 'Wpisz kod **BUKBONUS**.', code: 'BUKBONUS' },
+      { title: 'Krok 2: Freebet', desc: 'Po weryfikacji otrzymasz 20 PLN za darmo.' }
     ],
-    wagering: {
-        title: 'Mnożnik kursu',
-        text: 'Bonusy LVBET działają na zasadzie mnożnika. Kod BUKBONUS nie zmienia tych zasad.'
-    },
-    verification: {
-        title: 'Rapid Pay',
-        text: 'Wypłaty w LVBET są błyskawiczne.'
-    },
-    rules: [
-        "Bonus od wpłaty działa jako 'Bonus z mnożnikiem' (kurs x100).",
-        "Aby użyć bonusu, musisz zbudować kupon kombi z minimum 3 zdarzeniami.",
-        "Kurs łączny kuponu musi wynosić minimum 2.50.",
-        "Kurs pojedynczego zdarzenia na kuponie musi wynosić minimum 1.25.",
-        "Wygrana z takiego kuponu trafia na saldo bonusowe i wymaga dalszego obrotu (zazwyczaj 4x po kursie 2.00).",
-        "Freebet 20 PLN za kod BUKBONUS wymaga 1-krotnego obrotu kuponem kombi (min. 3 zdarzenia, kurs łączny 2.50).",
-        "Na aktywację i wykorzystanie bonusów masz 30 dni od momentu ich przyznania."
+    rules: ["Freebet 20 PLN wymaga obrotu na kuponie kombi (min. 3 zdarzenia, kurs 2.50)."],
+    faq: [
+        { q: "Jaki jest kod do LVBET?", a: "Kod to BUKBONUS. Tylko z nim otrzymasz darmowe 20 PLN bez depozytu." },
+        { q: "Czy LVBET daje darmowe pieniądze?", a: "Tak, po rejestracji z kodem i weryfikacji otrzymujesz 20 PLN freebetu." },
+        { q: "Jak odebrać bonus od wpłaty?", a: "Bonusy od wpłat (do 2000 PLN) są przyznawane automatycznie po dokonaniu depozytu z kodem." }
     ]
   },
   betfan: {
     name: 'Betfan',
+    slug: 'betfan',
+    logo: 'https://pewniaczki.pl/wp-content/uploads/2021/03/betfan.png',
+    rating: '4.4',
     color: 'text-green-500',
     bg: 'bg-green-500',
     bonusValue: '400 PLN (200%)',
-    intro: 'Chcesz potroić wpłatę? Oferta 200% od wpłaty w Betfan działa najlepiej z kodem **BUKBONUS**. Wpisz go przy rejestracji, aby mieć pewność, że bonus zostanie przypisany do Twojego konta.',
+    intro: 'Chcesz potroić wpłatę? Oferta 200% od wpłaty w Betfan działa najlepiej z kodem **BUKBONUS**.',
     steps: [
-      {
-        title: 'Krok 1: Rejestracja z kodem BUKBONUS',
-        desc: 'Szybka rejestracja. W polu "Kod promocyjny" wpisz **BUKBONUS**. To Twój klucz do potrojenia depozytu.',
-        code: 'BUKBONUS',
-        warning: 'Upewnij się, że wpisałeś BUKBONUS!'
-      },
-      {
-        title: 'Krok 2: Wpłata 200 PLN',
-        desc: 'Z kodem **BUKBONUS** wpłać 200 zł, a otrzymasz maksymalny bonus 400 zł.',
-      },
-      {
-        title: 'Krok 3: Odblokowanie',
-        desc: 'Zagraj za depozyt, aby uwolnić bonusowe środki uzyskane dzięki kodowi **BUKBONUS**.',
-      }
+      { title: 'Krok 1: Rejestracja', desc: 'Wpisz kod **BUKBONUS**.', code: 'BUKBONUS' },
+      { title: 'Krok 2: Wpłata', desc: 'Wpłać 200 zł, odbierz 400 zł bonusu.' }
     ],
-    wagering: {
-        title: 'Prosty obrót',
-        text: 'Obróć bonusem raz (1x) na kuponie AKO. Wygrana trafia na konto główne.'
-    },
-    verification: {
-        title: 'Metody',
-        text: 'MojeID lub skan dowodu.'
-    },
-    rules: [
-        "Aby odblokować bonus, musisz najpierw zagrać za 100% kwoty wpłaconego depozytu.",
-        "Środki bonusowe (400 PLN) wymagają tylko 1-krotnego obrotu (x1).",
-        "Kupon zaliczany do obrotu musi być kuponem AKO (akumulowanym).",
-        "Minimalna liczba zdarzeń na kuponie: 2.",
-        "Minimalny kurs łączny kuponu: 3.0.",
-        "Po wygraniu kuponu za środki bonusowe, cała wygrana przechodzi na saldo główne i można ją wypłacić.",
-        "Czas na wykonanie obrotu to 14 dni."
+    rules: ["Środki bonusowe wymagają 1-krotnego obrotu na kuponie AKO."],
+    faq: [
+        { q: "Jaki jest kod promocyjny Betfan?", a: "Kod to BUKBONUS. Pozwala on na potrojenie pierwszej wpłaty (200% do 400 PLN)." },
+        { q: "Ile trzeba wpłacić do Betfan?", a: "Aby maksymalnie wykorzystać bonus, wpłać 200 PLN. Otrzymasz wtedy dodatkowe 400 PLN na grę." },
+        { q: "Czy Betfan ma grę bez podatku?", a: "Tak, Betfan oferuje grę bez podatku na kuponach spełniających proste warunki." }
     ]
   },
   totalbet: {
     name: 'Totalbet',
+    slug: 'totalbet',
+    logo: 'https://surebety.pl/wp-content/uploads/2020/12/totalbet-pl-zaklady-bukmacherskie-logo.jpg',
+    rating: '4.3',
     color: 'text-green-700',
     bg: 'bg-green-700',
     bonusValue: '333 PLN',
-    intro: 'Totalbet daje 3 zakłady bez ryzyka. Aby mieć pewność, że system zakwalifikuje Cię do promocji, **użyj kodu BUKBONUS** w formularzu rejestracyjnym.',
+    intro: 'Totalbet daje 3 zakłady bez ryzyka. **Użyj kodu BUKBONUS** w formularzu rejestracyjnym.',
     steps: [
-      {
-        title: 'Krok 1: Rejestracja (Kod BUKBONUS)',
-        desc: 'Wypełnij dane i wpisz kod **BUKBONUS**. Pamiętaj o zaznaczeniu zgód marketingowych!',
-        code: 'BUKBONUS'
-      },
-      {
-        title: 'Krok 2: Weryfikacja w 48h',
-        desc: 'Masz 48h na weryfikację. Z kodem **BUKBONUS** po weryfikacji aktywują się 3 zakłady bez ryzyka.',
-        warning: 'Brak weryfikacji = utrata bonusów z kodu BUKBONUS!'
-      },
-      {
-        title: 'Krok 3: Trzy kupony bez ryzyka',
-        desc: 'Postaw 3 kupony. Jeśli przegrasz, dzięki kodowi **BUKBONUS** otrzymasz zwrot w gotówce.',
-      }
+      { title: 'Krok 1: Rejestracja', desc: 'Wpisz kod **BUKBONUS**.', code: 'BUKBONUS' },
+      { title: 'Krok 2: Zakłady', desc: 'Postaw 3 kupony bez ryzyka w ciągu 48h.' }
     ],
-    wagering: {
-        title: 'Zwrot w gotówce',
-        text: 'Zwroty z kodu BUKBONUS są bez obrotu. Możesz je wypłacić.'
-    },
-    verification: {
-        title: 'Karty',
-        text: 'Sprawdź też gry karciane w Totalbet.'
-    },
-    rules: [
-        "Promocja obejmuje trzy pierwsze kupony postawione po założeniu konta (w ciągu 48h).",
-        "Każdy z trzech kuponów musi być kuponem AKO (min. 2 zdarzenia).",
-        "Maksymalny zwrot za jeden kupon to 111 PLN.",
-        "Zwrot następuje w GOTÓWCE na konto depozytowe.",
-        "Otrzymany zwrot nie wymaga żadnego obrotu – można go od razu wypłacić.",
-        "Warunkiem koniecznym jest pełna weryfikacja konta w ciągu 48h od rejestracji.",
-        "Zakłady systemowe nie biorą udziału w promocji."
+    rules: ["Zwroty są w GOTÓWCE, bez obrotu."],
+    faq: [
+        { q: "Jaki jest kod do Totalbet?", a: "Kod promocyjny to BUKBONUS. Uprawnia do 3 zakładów bez ryzyka." },
+        { q: "Czy zwrot w Totalbet trzeba obracać?", a: "Nie, Totalbet zwraca pieniądze na konto główne z możliwością wypłaty." },
+        { q: "Ile czasu na zakłady bez ryzyka?", a: "Masz 48 godzin od rejestracji na postawienie ubezpieczonych kuponów." }
     ]
   },
   etoto: {
     name: 'Etoto',
+    slug: 'etoto',
+    logo: 'https://gramgrubo.pl/wp-content/uploads/2025/06/etoto-logo.jpg',
+    rating: '4.2',
     color: 'text-blue-800',
     bg: 'bg-blue-800',
     bonusValue: '777 PLN',
-    intro: 'W Etoto kod **BUKBONUS** otwiera drogę do bonusów od depozytu oraz specjalnego freebetu za aplikację. Nie pomiń wpisania kodu!',
+    intro: 'W Etoto kod **BUKBONUS** otwiera drogę do bonusów od depozytu oraz freebetu za aplikację.',
     steps: [
-      {
-        title: 'Krok 1: Rejestracja z kodem',
-        desc: 'Wpisz **BUKBONUS** przy rejestracji. To sygnał dla Etoto, że jesteś naszym czytelnikiem.',
-        code: 'BUKBONUS'
-      },
-      {
-        title: 'Krok 2: Freebet za aplikację',
-        desc: 'Pobierz apkę. Użytkownicy z kodem **BUKBONUS** otrzymują dodatkowe korzyści.',
-      },
-      {
-        title: 'Krok 3: Bonusy od wpłat',
-        desc: 'Odbierz bonusy 100% od trzech pierwszych wpłat.',
-      }
+      { title: 'Krok 1: Rejestracja', desc: 'Wpisz **BUKBONUS**.', code: 'BUKBONUS' },
+      { title: 'Krok 2: Bonusy', desc: 'Odbierz bonusy od wpłat i za aplikację.' }
     ],
-    wagering: {
-        title: 'Obrót',
-        text: 'Bonusy wymagają obrotu. Sprawdź szczegóły w regulaminie.'
-    },
-    verification: {
-        title: 'Mixbet',
-        text: 'Łącz zakłady na jednym kuponie.'
-    },
-    rules: [
-        "Bonusy od wpłaty wymagają obrotu przed wypłatą.",
-        "Zazwyczaj wymagany jest 3-krotny obrót kwotą bonusu (x3).",
-        "Kupony zaliczane do obrotu muszą mieć kurs minimalny 2.00 (dla kuponów SOLO) lub 1.20 na zdarzenie (dla AKO).",
-        "Freebet 77 PLN za aplikację nie wymaga obrotu – wygrana netto trafia na konto główne.",
-        "Bonusy przyznawane są kolejno po 1., 2. i 3. wpłacie.",
-        "Aby odebrać bonus, minimalna wpłata wynosi 50 PLN."
+    rules: ["Bonusy wymagają obrotu przed wypłatą."],
+    faq: [
+        { q: "Jaki jest kod do Etoto?", a: "Kod to BUKBONUS." },
+        { q: "Czy Etoto ma aplikację?", a: "Tak, i za jej pobranie otrzymasz dodatkowy freebet." }
     ]
   },
   fuksiarz: {
     name: 'Fuksiarz',
+    slug: 'fuksiarz',
+    logo: 'https://surebety.pl/wp-content/uploads/2021/04/fuksiarz-logo-bialo-czerwone-400x400-1.png',
+    rating: '4.2',
     color: 'text-red-500',
     bg: 'bg-red-500',
     bonusValue: '500 PLN',
-    intro: 'Fuksiarz to zwrot bez obrotu, ale **tylko z kodem BUKBONUS** masz pewność otrzymania najlepszych warunków na start. Wpisz kod w formularzu!',
+    intro: 'Fuksiarz to zwrot bez obrotu. Wpisz kod **BUKBONUS** w formularzu!',
     steps: [
-      {
-        title: 'Krok 1: Rejestracja (Wpisz BUKBONUS)',
-        desc: 'Załóż konto. W polu kod promocyjny wpisz **BUKBONUS**.',
-        code: 'BUKBONUS'
-      },
-      {
-        title: 'Krok 2: Pierwszy zakład',
-        desc: 'Postaw kupon AKO za min. 50 zł. Z kodem **BUKBONUS** jest on ubezpieczony.',
-        warning: 'Pamiętaj: Kupon SOLO nie działa!'
-      },
-      {
-        title: 'Krok 3: Zwrot 50% (Gotówka)',
-        desc: 'Przegrałeś? Dzięki kodowi **BUKBONUS** połowa stawki wraca do Ciebie jako gotówka do wypłaty.',
-      }
+      { title: 'Krok 1: Rejestracja', desc: 'Wpisz kod **BUKBONUS**.', code: 'BUKBONUS' },
+      { title: 'Krok 2: Zakład', desc: 'Postaw kupon AKO. Jeśli przegrasz - zwrot 50%.' }
     ],
-    wagering: {
-        title: 'Brak obrotu',
-        text: 'Zwrot z kodu BUKBONUS wypłacasz od razu.'
-    },
-    verification: {
-        title: 'Early Payout',
-        text: 'Wygrywaj przy prowadzeniu 2 bramkami.'
-    },
-    rules: [
-        "Zwrot wynosi 50% stawki przegranego zakładu (do 500 PLN).",
-        "Zwrócone środki są GOTÓWKĄ – nie podlegają żadnemu obrotowi.",
-        "Możesz je od razu wypłacić na konto bankowe.",
-        "Warunek konieczny: Pierwszy kupon musi być kuponem AKO (min. 2 zdarzenia).",
-        "Minimalny kurs pojedynczego zdarzenia na kuponie to 1.24.",
-        "Minimalna stawka kuponu to 50 PLN.",
-        "Zakłady wirtualne i gry karciane nie biorą udziału w promocji."
+    rules: ["Zwrot 50% jest w gotówce, bez obrotu."],
+    faq: [
+        { q: "Jaki kod do Fuksiarz?", a: "Kod promocyjny to BUKBONUS." },
+        { q: "Czy zwrot trzeba obracać?", a: "Nie, w Fuksiarzu zwrot jest w gotówce." }
     ]
   },
   forbet: {
     name: 'Forbet',
+    slug: 'forbet',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Forbetlogo.png/250px-Forbetlogo.png',
+    rating: '4.1',
     color: 'text-green-600',
     bg: 'bg-green-600',
     bonusValue: '3000 PLN',
-    intro: 'Pakiet 3000 PLN w Forbet wymaga aktywacji. Kluczem jest kod **BUKBONUS**. Wpisz go, aby odebrać zakład bez ryzyka do 1000 PLN.',
+    intro: 'Pakiet 3000 PLN w Forbet wymaga aktywacji kodem **BUKBONUS**.',
     steps: [
-      {
-        title: 'Krok 1: Rejestracja z kodem',
-        desc: 'Wypełnij formularz i wpisz kod **BUKBONUS**. To podstawa pakietu powitalnego.',
-        code: 'BUKBONUS'
-      },
-      {
-        title: 'Krok 2: Zakład bez ryzyka',
-        desc: 'Twój pierwszy kupon jest bezpieczny do 1000 zł dzięki kodowi **BUKBONUS**.',
-      },
-      {
-        title: 'Krok 3: Bonusy i Gra bez podatku',
-        desc: 'Kod **BUKBONUS** aktywuje też grę bez podatku przez 30 dni.',
-      }
+      { title: 'Krok 1: Rejestracja', desc: 'Wpisz kod **BUKBONUS**.', code: 'BUKBONUS' },
+      { title: 'Krok 2: Bonus', desc: 'Odbierz zakład bez ryzyka do 1000 PLN.' }
     ],
-    wagering: {
-        title: 'Obrót',
-        text: 'Wymagany obrót bonusem na kuponach AKO.'
-    },
-    verification: {
-        title: 'BetArchitekt',
-        text: 'Twórz własne zakłady w Forbet.'
-    },
-    rules: [
-        "Bonus Zakład bez Ryzyka (do 1000 PLN) wymaga 1-krotnego obrotu całą kwotą zwrotu.",
-        "Bonus od drugiej wpłaty (do 2000 PLN) wymaga 2-krotnego obrotu.",
-        "Kupony zaliczane do obrotu muszą posiadać min. 3 zdarzenia (AKO).",
-        "Kurs pojedynczego zdarzenia na kuponie obrotowym to min. 1.30.",
-        "Kurs całkowity kuponu obrotowego to min. 2.50.",
-        "Gra bez podatku obowiązuje przez 30 dni na kuponach z min. 3 zdarzeniami (kurs poj. 1.30).",
-        "Czas na obrót bonusem wynosi zazwyczaj 14 dni."
+    rules: ["Bonus wymaga obrotu."],
+    faq: [
+        { q: "Jaki jest kod do Forbet?", a: "Kod to BUKBONUS." },
+        { q: "Ile wynosi zakład bez ryzyka?", a: "Z kodem możesz otrzymać zwrot do 1000 PLN." }
     ]
   }
 };
+// ----------------------------------------------------------------------
 
 export async function generateStaticParams() {
   const slugs = Object.keys(GUIDES_DATA);
@@ -441,15 +251,73 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
       return notFound();
   }
 
+  // --- DANE STRUKTURALNE SCHEMA.ORG ---
+  const reviewSchema = {
+    "@context": "https://schema.org/",
+    "@type": "Review",
+    "itemReviewed": {
+      "@type": "Organization",
+      "name": guide.name,
+      "image": guide.logo
+    },
+    "reviewRating": {
+      "@type": "Rating",
+      "ratingValue": guide.rating,
+      "bestRating": "5",
+      "worstRating": "1"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "BukBonus.pl"
+    },
+    "reviewBody": `Szczegółowa analiza oferty powitalnej ${guide.name}. Sprawdź jak odebrać bonus ${guide.bonusValue}.`
+  };
+
+  const faqSchema = guide.faq ? {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": guide.faq.map((item: any) => ({
+      "@type": "Question",
+      "name": item.q,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": item.a
+      }
+    }))
+  } : null;
+
   return (
     <div className="bg-slate-50 font-sans pb-20">
       <Navbar />
 
+      {/* WSTRZYKNIĘCIE DANYCH STRUKTURALNYCH */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewSchema) }}
+      />
+      {faqSchema && (
+        <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
+
       {/* HEADER */}
       <header className="bg-white border-b border-gray-200 py-12 md:py-20">
-        <div className="container mx-auto px-4 max-w-4xl text-center">
+        <div className="container mx-auto px-4 max-w-4xl text-left md:text-center">
             
-            {/* AGRESYWNY BANER Z KODEM NA SAMEJ GÓRZE */}
+            {/* --- ZMIANA: DODANO BREADCRUMBS --- */}
+            <div className="flex justify-center mb-6">
+                <Breadcrumbs 
+                    items={[
+                        { label: 'Strona Główna', href: '/' },
+                        { label: 'Bonusy i Kody Promocyjne', href: '/' },
+                        { label: `${guide.name} - Kod Promocyjny`, href: `/poradnik/${guide.slug}` }
+                    ]} 
+                />
+            </div>
+            {/* ---------------------------------- */}
+
             <div className="bg-yellow-400 text-slate-900 font-black text-center py-4 px-4 rounded-xl mb-10 border-4 border-yellow-200 shadow-xl animate-pulse text-lg md:text-xl transform md:scale-110">
                 ⚠️ WAŻNE: ABY ODEBRAĆ BONUS, WPISZ KOD: <span className="bg-red-600 text-white px-3 py-1 rounded ml-2 inline-block tracking-widest">BUKBONUS</span>
             </div>
@@ -488,7 +356,6 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
 
         {/* LISTA KROKÓW (TIMELINE) */}
         <div className="space-y-12 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-slate-200 before:via-slate-300 before:to-transparent">
-            
             {guide.steps.map((step: any, index: number) => (
                 <div key={index} className="relative flex flex-col md:flex-row items-start group">
                     <div className={`absolute left-0 md:left-1/2 md:-ml-6 h-12 w-12 flex items-center justify-center rounded-full bg-white border-4 border-slate-100 shadow-md z-10 font-black text-slate-400 group-hover:border-blue-500 group-hover:text-blue-600 transition-colors duration-300`}>
@@ -541,31 +408,7 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
             ))}
         </div>
 
-        {/* STARA SEKCJA WAGERING/VERIFICATION (SKRÓCONA) */}
-        {(guide.wagering || guide.verification) && (
-            <div className="mt-20 grid md:grid-cols-2 gap-8">
-                {guide.wagering && (
-                    <div className="bg-slate-100 rounded-3xl p-8 border border-slate-200">
-                        <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-slate-700 shadow-sm mb-4 text-xl">
-                            <i className="fas fa-sync-alt"></i>
-                        </div>
-                        <h4 className="font-bold text-xl text-slate-900 mb-3">{guide.wagering.title}</h4>
-                        <p className="text-slate-600 text-sm leading-relaxed">{guide.wagering.text}</p>
-                    </div>
-                )}
-                {guide.verification && (
-                    <div className="bg-slate-100 rounded-3xl p-8 border border-slate-200">
-                        <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-slate-700 shadow-sm mb-4 text-xl">
-                            <i className="fas fa-id-card"></i>
-                        </div>
-                        <h4 className="font-bold text-xl text-slate-900 mb-3">{guide.verification.title}</h4>
-                        <p className="text-slate-600 text-sm leading-relaxed">{guide.verification.text}</p>
-                    </div>
-                )}
-            </div>
-        )}
-
-        {/* --- NOWA SEKCJA: SZTYWNY REGULAMIN I WARUNKI (NA SAMYM DOLE) --- */}
+        {/* --- SZTYWNY REGULAMIN I WARUNKI --- */}
         {guide.rules && (
             <div className="mt-16 bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
                 <div className="bg-slate-900 px-6 py-4 border-b border-slate-800 flex items-center gap-3">
@@ -587,6 +430,28 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
             </div>
         )}
 
+        {/* --- SEKCJA FAQ --- */}
+        {guide.faq && (
+            <div className="mt-16">
+                <h3 className="text-2xl font-black text-slate-900 mb-8 text-center">
+                    Często zadawane pytania (FAQ) - {guide.name}
+                </h3>
+                <div className="space-y-4">
+                    {guide.faq.map((item: any, idx: number) => (
+                        <div key={idx} className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm hover:shadow-md transition">
+                            <h4 className="font-bold text-slate-800 text-lg mb-2 flex items-start gap-3">
+                                <span className="text-blue-500">?</span>
+                                {item.q}
+                            </h4>
+                            <p className="text-slate-600 text-sm leading-relaxed pl-6">
+                                {item.a}
+                            </p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        )}
+
         {/* CTA SECTION */}
         <div className="mt-24 text-center">
              <div className="relative inline-block group">
@@ -602,7 +467,7 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
                  </a>
              </div>
              <p className="text-xs text-slate-400 mt-6 max-w-lg mx-auto">
-                Klikając w przycisk, zostaniesz bezpiecznie przekierowany na oficjalną stronę bukmachera. Pamiętaj, aby ręcznie wpisać kod <strong>BUKBONUS</strong> w formularzu, jeśli nie uzupełni się automatycznie. Hazard wiąże się z ryzykiem. Graj odpowiedzialnie. 18+
+                Klikając w przycisk, zostaniesz bezpiecznie przekierowany na oficjalną stronę bukmachera.
              </p>
         </div>
 

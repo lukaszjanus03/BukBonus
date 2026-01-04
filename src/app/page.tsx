@@ -1,8 +1,6 @@
 import RankingTable from '@/components/RankingTable';
 import Footer from '@/components/Footer';
 import NewsWidget from '@/components/NewsWidget';
-// Usunięto Navbar, bo jest w layout.tsx
-// Usunięto CookieConsent, bo jest w layout.tsx
 import Link from 'next/link';
 
 export default function Home() {
@@ -60,8 +58,6 @@ export default function Home() {
   };
 
   return (
-    // ZMIANA: Usunięto <main className="min-h-screen...">, bo to jest w layout.
-    // Używamy pustego fragmentu <> lub <div> bez klas layoutowych.
     <>
       <script
         type="application/ld+json"
@@ -72,16 +68,15 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
-      {/* Navbar usunięty stąd */}
-
       <header className="bg-white py-12 border-b border-gray-200 text-center px-4 relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-green-400 to-blue-500"></div>
         
+        {/* H1 - Najważniejszy nagłówek (Bez zmian) */}
         <h1 className="text-3xl md:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight">
-            Najlepsze Bonusy Bukmacherskie <span className="text-blue-600 block md:inline mt-2 md:mt-0">{dynamicDateString}</span>
+            Ranking Bukmacherów i Bonusy na Start <span className="text-blue-600 block md:inline mt-2 md:mt-0">{dynamicDateString}</span>
         </h1>
         <p className="text-slate-500 max-w-2xl mx-auto text-lg mb-6 leading-relaxed">
-            Sprawdź oficjalny ranking legalnych bukmacherów zaktualizowany na <strong>{monthName} {currentYear}</strong>. Odbierz pakiety VIP i graj bezpiecznie.
+            Sprawdź oficjalny ranking <strong>legalnych bukmacherów</strong> zaktualizowany na {monthName} {currentYear}. Odbierz pakiety VIP, darmowe freebety i graj bezpiecznie.
         </p>
         
         <div className="flex flex-wrap justify-center gap-3 md:gap-6 text-[10px] md:text-xs font-bold text-gray-400 uppercase tracking-widest mt-6">
@@ -100,9 +95,10 @@ export default function Home() {
         
         <div className="lg:col-span-8">
             <div className="flex items-center justify-between mb-4 px-2">
-                <h2 className="text-xl md:text-2xl font-bold text-slate-800 flex items-center gap-2">
-                    <i className="fas fa-trophy text-yellow-500"></i> Top Bukmacherzy
-                </h2>
+                {/* --- ZMIANA: Zdegradowaliśmy to do H3 (mniejszy priorytet SEO) --- */}
+                <h3 className="text-xl md:text-2xl font-bold text-slate-800 flex items-center gap-2">
+                    <i className="fas fa-trophy text-yellow-500"></i> Legalni Bukmacherzy w Polsce – Ranking {currentYear}
+                </h3>
                 <span className="text-[10px] bg-green-100 text-green-700 px-3 py-1 rounded-full font-bold uppercase tracking-wide border border-green-200">
                     {monthName} {currentYear}
                 </span>
@@ -130,7 +126,7 @@ export default function Home() {
             
             <div className="text-center mb-14">
                 <h2 className="text-3xl font-black text-slate-900 mb-4 flex items-center justify-center gap-3">
-                    Bonusy bez tajemnic <i className="fas fa-search text-blue-600"></i>
+                    Bonusy Bukmacherskie bez tajemnic <i className="fas fa-search text-blue-600"></i>
                 </h2>
                 <p className="text-lg text-slate-600 max-w-2xl mx-auto">
                     Musisz to wiedzieć przed wybraniem bonusu. Przewodnik dla początkujących graczy na {currentYear} rok.
@@ -138,15 +134,16 @@ export default function Home() {
             </div>
 
             <div className="mb-12">
-                <h3 className="text-2xl font-bold text-slate-800 mb-4 border-l-4 border-blue-500 pl-4">
-                    Bonusy bez depozytu – dlaczego bukmacherzy je oferują?
-                </h3>
+                {/* --- ZMIANA KLUCZOWA: Awansowaliśmy to do H2 (wysoki priorytet SEO dla frazy "Darmowe Bonusy") --- */}
+                <h2 className="text-2xl font-bold text-slate-800 mb-4 border-l-4 border-blue-500 pl-4">
+                    Darmowe Bonusy Bukmacherskie (Bez Depozytu) – Jak je odebrać?
+                </h2>
                 <div className="prose prose-slate max-w-none text-slate-600 leading-relaxed">
                     <p className="mb-4">
                         Oferty powitalne, a w szczególności <strong>bonusy bez depozytu</strong> i inne formy zachęty bez dwóch zdań działają na wyobraźnię początkujących graczy. Trzeba jednak pamiętać, że oferowany przez bukmachera bonus jest jedynie częścią jego strategii pozyskiwania nowych klientów. To właśnie dlatego warunki go dotyczące, np. te mówiące o wymaganym obrocie, pisane są często tzw. „drobnym druczkiem”.
                     </p>
                     <p>
-                        Zazwyczaj bukmacherzy kierują <strong>darmowe bonusy</strong>, cashbacki i inne promocje do nowych klientów, niezarejestrowanych wcześniej na danej stronie. Zdarzają się również bonusy dla stałych klientów – jak np. freebet urodzinowy w Betfan czy programy lojalnościowe.
+                        Zazwyczaj bukmacherzy kierują <strong>darmowe bonusy (freebety)</strong>, cashbacki i inne promocje do nowych klientów, niezarejestrowanych wcześniej na danej stronie. Zdarzają się również bonusy dla stałych klientów – jak np. freebet urodzinowy w Betfan czy programy lojalnościowe.
                     </p>
                 </div>
             </div>
@@ -154,19 +151,19 @@ export default function Home() {
             <div className="grid md:grid-cols-2 gap-8 mb-12">
                 <div className="bg-orange-50 p-6 rounded-2xl border border-orange-100">
                     <h4 className="font-bold text-lg text-slate-800 mb-3 flex items-center gap-2">
-                        <i className="fas fa-exclamation-circle text-orange-500"></i> Na co uważać?
+                        <i className="fas fa-exclamation-circle text-orange-500"></i> Na co uważać przy wyborze bonusu?
                     </h4>
                     <ul className="space-y-4 text-sm text-slate-700">
                         <li className="flex items-start gap-3">
                             <span className="mt-1 text-orange-400">●</span>
                             <span>
-                                <strong>Uważaj na krzykliwe hasła.</strong> Pamiętaj, że Twoja wygrana to przegrana bukmachera. Bonusy nie są po to, żeby rozdawać pieniądze, ale by nakłonić Cię do rejestracji. Wybieraj rozsądnie i miej świadomość ryzyka.
+                                <strong>Warunki wypłaty (Obrót).</strong> Pieniądze z bonusu rzadko można wypłacić od razu. Zawsze sprawdź regulamin, który definiuje, ile razy musisz obrócić kwotą (np. zagrać za jej 3-krotność).
                             </span>
                         </li>
                         <li className="flex items-start gap-3">
                             <span className="mt-1 text-orange-400">●</span>
                             <span>
-                                <strong>Warunki wypłaty (Obrót).</strong> Pieniądze z bonusu rzadko można wypłacić od razu. Zawsze towarzyszy im regulamin, który definiuje, ile razy musisz obrócić kwotą (np. zagrać za jej 3-krotność), aby móc ją wypłacić.
+                                <strong>Kody Promocyjne.</strong> Często najwyższy bonus dostępny jest tylko po wpisaniu specjalnego kodu (np. BUKBONUS) podczas rejestracji.
                             </span>
                         </li>
                     </ul>
@@ -174,44 +171,44 @@ export default function Home() {
 
                 <div className="bg-blue-50 p-6 rounded-2xl border border-blue-100">
                     <h4 className="font-bold text-lg text-slate-800 mb-3 flex items-center gap-2">
-                        <i className="fas fa-info-circle text-blue-500"></i> Rodzaje promocji
+                        <i className="fas fa-info-circle text-blue-500"></i> Rodzaje promocji bukmacherskich
                     </h4>
                     <ul className="space-y-3">
                          <li className="bg-white p-3 rounded-lg shadow-sm">
                             <span className="block font-bold text-slate-900 text-sm mb-1">Zakład Bez Ryzyka (Cashback)</span>
-                            <span className="text-xs text-slate-500">Najbezpieczniejsza opcja. Jeśli przegrasz pierwszy zakład, bukmacher zwraca Ci stawkę.</span>
+                            <span className="text-xs text-slate-500">Jeśli przegrasz pierwszy zakład, bukmacher zwraca Ci stawkę na konto.</span>
                         </li>
                         <li className="bg-white p-3 rounded-lg shadow-sm">
                             <span className="block font-bold text-slate-900 text-sm mb-1">Freebet (Darmowy Zakład)</span>
-                            <span className="text-xs text-slate-500">Otrzymujesz środki na grę (np. 20 PLN) za darmo. Jeśli wygrasz, zysk jest Twój.</span>
+                            <span className="text-xs text-slate-500">Otrzymujesz darmowe środki na grę za samą rejestrację lub wpłatę.</span>
                         </li>
                         <li className="bg-white p-3 rounded-lg shadow-sm">
                             <span className="block font-bold text-slate-900 text-sm mb-1">Bonus od Depozytu</span>
-                            <span className="text-xs text-slate-500">Bukmacher podwaja Twoją pierwszą wpłatę (np. 100% do 500 PLN).</span>
+                            <span className="text-xs text-slate-500">Bukmacher podwaja Twoją pierwszą wpłatę (np. 100% do 1000 PLN).</span>
                         </li>
                     </ul>
                 </div>
             </div>
 
             <div className="mt-16">
-                <h3 className="text-2xl font-black text-center mb-8">Często Zadawane Pytania (FAQ)</h3>
+                <h3 className="text-2xl font-black text-center mb-8">Często Zadawane Pytania (FAQ) - Bonusy</h3>
                 <div className="space-y-4">
                     <div className="bg-slate-50 rounded-xl p-5 cursor-pointer hover:bg-slate-100 transition">
                         <h4 className="font-bold text-slate-800 mb-2">❓ Jaki jest najlepszy bonus bukmacherski na start?</h4>
                         <p className="text-sm text-slate-600">
-                            Zdecydowanie polecamy <strong>Zakład Bez Ryzyka (Cashback)</strong>. Oferuje go m.in. STS i Fortuna. Dzięki temu, jeśli Twój pierwszy kupon okaże się przegrany, otrzymasz zwrot pieniędzy. To najbezpieczniejsza opcja dla początkujących.
+                            Zdecydowanie polecamy <strong>Zakład Bez Ryzyka (Cashback)</strong>. Oferuje go m.in. STS i Fortuna. Dzięki temu, jeśli Twój pierwszy kupon okaże się przegrany, otrzymasz zwrot pieniędzy.
                         </p>
                     </div>
                     <div className="bg-slate-50 rounded-xl p-5 cursor-pointer hover:bg-slate-100 transition">
                         <h4 className="font-bold text-slate-800 mb-2">❓ Czy trzeba wpisywać kod promocyjny?</h4>
                         <p className="text-sm text-slate-600">
-                            Tak, użycie kodu <strong>BUKBONUS</strong> podczas rejestracji często gwarantuje wyższy pakiet powitalny (tzw. oferta VIP), niedostępny dla standardowych użytkowników.
+                            Tak, użycie kodu <strong>BUKBONUS</strong> podczas rejestracji gwarantuje wyższy pakiet powitalny (tzw. oferta VIP), często niedostępny dla standardowych użytkowników.
                         </p>
                     </div>
                     <div className="bg-slate-50 rounded-xl p-5 cursor-pointer hover:bg-slate-100 transition">
                         <h4 className="font-bold text-slate-800 mb-2">❓ Czy bukmacherzy są w Polsce legalni?</h4>
                         <p className="text-sm text-slate-600">
-                            Prezentujemy wyłącznie firmy posiadające <strong>zezwolenie Ministerstwa Finansów</strong>. Gra u nich jest w 100% legalna i bezpieczna. Unikaj stron zagranicznych bez licencji, gdyż grożą za to wysokie kary.
+                            W naszym rankingu prezentujemy wyłącznie firmy posiadające <strong>zezwolenie Ministerstwa Finansów</strong>. Gra u nich jest w 100% legalna i bezpieczna.
                         </p>
                     </div>
                 </div>

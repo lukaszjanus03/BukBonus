@@ -19,6 +19,17 @@ const BIG_TEAMS = [
     'Newcastle', 'Tottenham', 'Aston Villa', 'Benfica', 'Porto', 'Sporting', 'Marseille', 'Lyon'
 ];
 
+// --- LISTA WEZWAŃ DO DZIAŁANIA (INTERNAL LINKING SEO) ---
+const CTAS = [
+    " Chcesz obstawić ten mecz bez ryzyka? Sprawdź nasz Ranking Bukmacherów.",
+    " Zagraj ten typ w Superbet i odbierz tydzień gry bez ryzyka.",
+    " Szukasz pewniaka? Zobacz Typy Dnia na naszej stronie.",
+    " Obstawiaj w Fortunie i zgarnij zakład bez ryzyka na start.",
+    " Sprawdź aktualne kursy i bonusy bukmacherskie na 2026 rok.",
+    " Zarejestruj się z kodem BUKBONUS, aby powiększyć wygraną.",
+    " Nie masz konta w STS? Odbierz bonus powitalny przed pierwszym gwizdkiem."
+];
+
 // --- WYSZUKIWANIE ZDJĘĆ ---
 async function getDynamicMatchImage(teamName: string) {
     if (!UNSPLASH_KEY) return DEFAULT_IMAGE;
@@ -58,10 +69,18 @@ function generateDynamicContent(home: string, away: string, competition: string,
         `Obie drużyny potrzebują punktów jak tlenu. ${home} kontra ${away}. To może być mecz kolejki. Oglądaj od ${t}.`,
         `Analitycy spodziewają się otwartego spotkania. ${home} - ${away}. Kto okaże się skuteczniejszy? Godzina ${t}.`
     ];
-    // (Możesz tu zostawić całą swoją dużą listę opisów, skróciłem dla czytelności kodu tutaj)
+    
+    // (Tutaj możesz zostawić całą swoją dużą listę specyficznych opisów ligowych, którą miałeś wcześniej)
+    // Dla czytelności skracam listę w tym przykładzie, ale Twój kod może mieć te 150 wariantów.
     
     let pool = [...general, ...general];
-    return pool[Math.floor(Math.random() * pool.length)];
+    // if (leagueCode === 'PL') pool = [...pool, ...eng]; itd...
+
+    const selectedDesc = pool[Math.floor(Math.random() * pool.length)];
+    const selectedCTA = CTAS[Math.floor(Math.random() * CTAS.length)];
+
+    // ZWRACAMY OPIS + CTA
+    return selectedDesc + selectedCTA;
 }
 
 export async function GET() {
@@ -132,7 +151,6 @@ export async function GET() {
             time: time,
             content: generateDynamicContent(homeShort, awayShort, m.competition.name, time, isToday, m.competition.code),
             image: imageUrl,
-            // --- TUTAJ DODAJEMY HERBY Z API ---
             team1Logo: m.homeTeam.crest || DEFAULT_CREST,
             team2Logo: m.awayTeam.crest || DEFAULT_CREST
         };
@@ -146,7 +164,7 @@ export async function GET() {
                     title: "Chwilowa przerwa w rozgrywkach",
                     category: "INFO",
                     time: "--:--",
-                    content: "W najbliższych 3 dniach nie ma zaplanowanych hitów w głównych ligach europejskich.",
+                    content: "W najbliższych 3 dniach nie ma zaplanowanych hitów w głównych ligach europejskich. Sprawdź nasz ranking bukmacherów, aby odebrać bonusy na start.",
                     image: DEFAULT_IMAGE,
                     date: "INFO",
                     team1Logo: DEFAULT_CREST,

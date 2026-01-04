@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image'; // <--- IMPORT
 import { useState } from 'react';
-// IMPORTUJEMY DANE
 import { BOOKMAKERS } from '@/data/bookmakers';
 
 export default function Navbar() {
@@ -45,7 +45,16 @@ export default function Navbar() {
                                 href={`/promocje#${bookie.slug}`}
                                 className="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 transition"
                             >
-                                <img src={bookie.logo} alt={bookie.name} className="w-6 h-6 object-contain" />
+                                {/* --- ZMIANA NA NEXT/IMAGE --- */}
+                                <div className="relative w-6 h-6">
+                                    <Image 
+                                        src={bookie.logo} 
+                                        alt={bookie.name} 
+                                        fill
+                                        sizes="24px"
+                                        className="object-contain"
+                                    />
+                                </div>
                                 <span className="text-slate-700 text-sm font-bold">{bookie.name}</span>
                             </Link>
                         ))}
@@ -72,7 +81,16 @@ export default function Navbar() {
                                 href={`/poradnik/${bookie.slug}`}
                                 className="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 transition group/item"
                             >
-                                <img src={bookie.logo} alt={bookie.name} className="w-6 h-6 object-contain" />
+                                {/* --- ZMIANA NA NEXT/IMAGE --- */}
+                                <div className="relative w-6 h-6">
+                                    <Image 
+                                        src={bookie.logo} 
+                                        alt={bookie.name} 
+                                        fill
+                                        sizes="24px"
+                                        className="object-contain"
+                                    />
+                                </div>
                                 <span className="text-slate-700 text-sm font-bold group-hover/item:text-blue-600 transition-colors">Jak odebrać w {bookie.name}?</span>
                             </Link>
                         ))}
