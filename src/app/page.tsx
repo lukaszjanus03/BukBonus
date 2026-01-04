@@ -1,20 +1,17 @@
 import RankingTable from '@/components/RankingTable';
 import Footer from '@/components/Footer';
-import CookieConsent from '@/components/CookieConsent';
-import Navbar from '@/components/Navbar';
 import NewsWidget from '@/components/NewsWidget';
+// Usunięto Navbar, bo jest w layout.tsx
+// Usunięto CookieConsent, bo jest w layout.tsx
 import Link from 'next/link';
 
 export default function Home() {
-  // --- AUTOMATYCZNA DATA (FRESHNESS SEO) ---
   const date = new Date();
   const monthName = new Intl.DateTimeFormat('pl-PL', { month: 'long' }).format(date);
-  // Zamiana pierwszej litery na wielką (np. "styczeń" -> "Styczeń")
   const capitalizedMonth = monthName.charAt(0).toUpperCase() + monthName.slice(1);
   const currentYear = date.getFullYear();
-  const dynamicDateString = `${capitalizedMonth} ${currentYear}`; // np. "Styczeń 2026"
+  const dynamicDateString = `${capitalizedMonth} ${currentYear}`;
 
-  // DANE STRUKTURALNE (SCHEMA.ORG)
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebSite",
@@ -31,7 +28,6 @@ export default function Home() {
     }
   };
 
-  // DANE STRUKTURALNE DLA FAQ (FAQPage Schema)
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -64,9 +60,9 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-slate-50 text-slate-800 font-sans flex flex-col">
-      
-      {/* Wstrzyknięcie danych strukturalnych */}
+    // ZMIANA: Usunięto <main className="min-h-screen...">, bo to jest w layout.
+    // Używamy pustego fragmentu <> lub <div> bez klas layoutowych.
+    <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -76,11 +72,9 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
-      <Navbar />
+      {/* Navbar usunięty stąd */}
 
-      {/* Hero Header Z DYNAMICZNĄ DATĄ */}
       <header className="bg-white py-12 border-b border-gray-200 text-center px-4 relative overflow-hidden">
-        {/* Tło ozdobne (delikatne) */}
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-green-400 to-blue-500"></div>
         
         <h1 className="text-3xl md:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight">
@@ -95,7 +89,6 @@ export default function Home() {
                 <i className="fas fa-check-circle text-green-500 mr-1.5"></i>
                 Aktualizacja: {monthName} {currentYear}
             </span>
-            {/* USUNIĘTO "Licencja MF" - teraz jest bezpieczniej */}
             <span className="flex items-center bg-slate-50 px-3 py-1 rounded-full border border-slate-100">
                 <span className="text-red-500 font-extrabold mr-1.5">18+</span>
                 Odpowiedzialna Gra
@@ -103,10 +96,8 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Główna treść */}
       <div className="container mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
         
-        {/* Lewa kolumna: Ranking */}
         <div className="lg:col-span-8">
             <div className="flex items-center justify-between mb-4 px-2">
                 <h2 className="text-xl md:text-2xl font-bold text-slate-800 flex items-center gap-2">
@@ -117,11 +108,9 @@ export default function Home() {
                 </span>
             </div>
             
-            {/* PRZEKAZUJEMY DATĘ DO KOMPONENTU RANKINGU */}
             <RankingTable currentDate={dynamicDateString} />
         </div>
         
-        {/* Prawa kolumna: Sidebar */}
         <aside className="lg:col-span-4 space-y-8">
             <NewsWidget />
             
@@ -136,7 +125,6 @@ export default function Home() {
         </aside>
       </div>
 
-      {/* --- DUŻA SEKCJA SEO --- */}
       <section className="bg-white border-t border-gray-200 py-16 mt-8">
         <div className="container mx-auto px-4 max-w-4xl">
             
@@ -149,7 +137,6 @@ export default function Home() {
                 </p>
             </div>
 
-            {/* Content Box 1: Bonusy bez depozytu */}
             <div className="mb-12">
                 <h3 className="text-2xl font-bold text-slate-800 mb-4 border-l-4 border-blue-500 pl-4">
                     Bonusy bez depozytu – dlaczego bukmacherzy je oferują?
@@ -164,7 +151,6 @@ export default function Home() {
                 </div>
             </div>
 
-            {/* Content Box 2: Na co uważać */}
             <div className="grid md:grid-cols-2 gap-8 mb-12">
                 <div className="bg-orange-50 p-6 rounded-2xl border border-orange-100">
                     <h4 className="font-bold text-lg text-slate-800 mb-3 flex items-center gap-2">
@@ -207,7 +193,6 @@ export default function Home() {
                 </div>
             </div>
 
-            {/* SEKCJA FAQ */}
             <div className="mt-16">
                 <h3 className="text-2xl font-black text-center mb-8">Często Zadawane Pytania (FAQ)</h3>
                 <div className="space-y-4">
@@ -236,8 +221,6 @@ export default function Home() {
       </section>
 
       <Footer />
-      <CookieConsent />
-
-    </main>
+    </>
   );
 }

@@ -1,8 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer'; // <--- Import Footera
+// Navbar i Footer są już w layout.tsx, więc teoretycznie można je stąd usunąć,
+// ALE w Next.js App Router (layout) Footer jest dodawany globalnie TYLKO JEŚLI tam go wstawisz.
+// W Twoim obecnym layout.tsx NIE MA Footera (jest tylko CookieConsent).
+// WIĘC: Zostawiamy Footer tutaj, ale usuwamy klasy layoutowe z <main>.
+import Footer from '@/components/Footer'; 
 
 interface Match {
   id: string;
@@ -28,9 +31,7 @@ export default function TypyDniaPage() {
   useEffect(() => {
     const fetchMatches = async () => {
       try {
-        // Teraz pytamy NASZ serwer, a nie zewnętrzne API
         const res = await fetch('/api/odds', {
-            // Wyłączamy cache przeglądarki, bo polegamy na cache serwera
             cache: 'no-store' 
         });
 
@@ -39,7 +40,13 @@ export default function TypyDniaPage() {
         const data = await res.json();
 
         if (Array.isArray(data)) {
-            setMatches(data);
+            // Filtracja meczów z przeszłości
+            const now = new Date();
+            const futureMatches = data.filter((match: Match) => {
+                const matchDate = new Date(match.commence_time);
+                return matchDate > now;
+            });
+            setMatches(futureMatches);
         } else {
             console.error("Otrzymano nieprawidłowe dane:", data);
             setErrorMsg("Błąd danych serwera.");
@@ -73,12 +80,11 @@ export default function TypyDniaPage() {
   };
 
   return (
-    // Dodałem 'flex flex-col', aby footer był zawsze na dole
-    <main className="min-h-screen bg-slate-50 flex flex-col">
-      <Navbar />
-
-      {/* Dodałem 'flex-grow', aby treść wypychała footer w dół */}
-      <div className="container mx-auto px-4 max-w-4xl mt-8 flex-grow pb-10">
+    // ZMIANA: Usunięto 'min-h-screen flex flex-col', bo to jest już w layout.tsx
+    // Navbar też usunięty, bo jest w layout.tsx
+    // Zmieniono <main> na <div> lub <>, bo główny <main> jest w layout.
+    <>
+      <div className="container mx-auto px-4 max-w-4xl mt-8 pb-10">
         <div className="mb-8">
             <h1 className="text-3xl font-black text-slate-900 mb-2">Typy Dnia</h1>
             <p className="text-slate-500">
@@ -99,9 +105,9 @@ export default function TypyDniaPage() {
         ) : matches.length === 0 ? (
             <div className="text-center py-12 bg-white rounded-xl border border-slate-200 shadow-sm">
                 <i className="far fa-calendar-check text-4xl text-slate-300 mb-3 block"></i>
-                <span className="text-slate-500 font-medium">Aktualnie brak pewnych typów.</span>
+                <span className="text-slate-500 font-medium">Aktualnie brak nadchodzących meczów.</span>
                 <p className="text-xs text-slate-400 mt-2">
-                    Sprawdź ponownie jutro rano. Dane są aktualizowane automatycznie co 12 godzin.
+                    Wróć później lub sprawdź wyniki na żywo.
                 </p>
             </div>
         ) : (
@@ -160,6 +166,6 @@ export default function TypyDniaPage() {
       </div>
 
       <Footer />
-    </main>
+    </>
   );
 }

@@ -2,16 +2,16 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import LiveTicker from "@/components/LiveTicker"; 
-import Navbar from "@/components/Navbar"; // <--- DODANO IMPORT NAVBARA
+import Navbar from "@/components/Navbar";
 import CookieConsent from "@/components/CookieConsent";
 import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
 
-// Twój kod Google Analytics (pobrany ze screena)
 const GA_MEASUREMENT_ID = 'G-G6YJNYFLZ0'; 
 
 export const metadata: Metadata = {
+  // ... (reszta metadanych bez zmian) ...
   title: {
     default: "Najlepsze Bonusy Bukmacherskie 2026 | Kody Promocyjne",
     template: "%s | BukBonus.pl"
@@ -26,7 +26,6 @@ export const metadata: Metadata = {
     locale: 'pl_PL',
     type: 'website',
   },
-  // Twój kod weryfikacyjny Google Search Console
   verification: {
     google: "ldgcHhMf14xFfxROpGI7YZH83lNJUPM-9mSbKtDRcM0", 
   },
@@ -49,11 +48,11 @@ export default function RootLayout({
         />
       </head>
       
+      {/* --- ZMIANA TUTAJ: Dodano 'min-h-screen flex flex-col' --- */}
       <body 
-        className={`${inter.className} bg-slate-50 text-slate-900`}
+        className={`${inter.className} bg-slate-50 text-slate-900 min-h-screen flex flex-col`}
         suppressHydrationWarning={true} 
       >
-        {/* Skrypty Google Analytics */}
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
           strategy="afterInteractive"
@@ -67,14 +66,11 @@ export default function RootLayout({
           `}
         </Script>
 
-        {/* 1. LiveTicker (fixed top-0) */}
         <LiveTicker />
-
-        {/* 2. Navbar (fixed top-14) - DODANO */}
         <Navbar />
 
-        {/* 3. Główna treść z paddingiem (pt-120px), żeby nie wchodziła pod paski */}
-        <main className="min-h-screen pt-[120px]">
+        {/* --- ZMIANA TUTAJ: Dodano 'flex-grow', żeby treść wypychała stopkę --- */}
+        <main className="pt-[120px] flex-grow">
              {children}
         </main>
         

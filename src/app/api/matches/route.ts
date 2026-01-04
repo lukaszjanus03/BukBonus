@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 
 // ZABEZPIECZENIE: Pobieramy klucz z pliku .env.local
-// (To ten sam klucz co w newsach: FOOTBALL_API_KEY)
 const API_KEY = process.env.FOOTBALL_API_KEY;
 const API_URL = 'https://api.football-data.org/v4/matches';
 
@@ -12,8 +11,9 @@ export async function GET() {
   }
 
   try {
-    // Pobieramy ligi: Anglia(PL), Niemcy(BL1), Włochy(SA), Francja(FL1), Polska(PPL)
-    const response = await fetch(`${API_URL}?competitions=PL,BL1,SA,FL1,PPL`, {
+    // --- ZMIANA TUTAJ: Dodałem "PD" do listy competitions ---
+    // PL=Anglia, BL1=Niemcy, SA=Włochy, FL1=Francja, PPL=Polska, PD=Hiszpania
+    const response = await fetch(`${API_URL}?competitions=PL,BL1,SA,FL1,PPL,PD`, {
       headers: {
         'X-Auth-Token': API_KEY,
       },
